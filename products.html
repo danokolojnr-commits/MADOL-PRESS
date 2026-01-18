@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products & Services - Madol Press</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="aos.css">
+</head>
+
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+        <i class="fa-solid fa-moon"></i>
+    </button>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-print"></i>
+                Madol<span>Press</span>
+            </a>
+            <div class="menu-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="founder.html" class="nav-link">Founder</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="products.html" class="nav-link active">Services & Products</a>
+            </div>
+            <a href="contact.html" class="btn btn-primary">Get a Quote</a>
+        </div>
+    </nav>
+
+    <section class="section" style="padding-top: 140px; background: var(--bg-body);">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up" style="margin-bottom: var(--spacing-lg);">
+                <h1 class="text-blue">Our <span class="text-red">Products</span> & Machinery</h1>
+                <p>Equipped with industry-leading technology to handle any printing challenge.</p>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="features-grid" style="grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));">
+
+                <!-- Item 1 -->
+                <div class="feature-card hover-card" data-aos="fade-right" style="padding: 0; overflow: hidden;">
+                    <div class="img-placeholder" style="height: 250px; border: none; border-radius: 0;">
+                        <span>Digital Printer Image (e.g. DocuColor)</span>
+                    </div>
+                    <div style="padding: var(--spacing-md);">
+                        <h3 class="text-blue">Digital Production Press</h3>
+                        <p>High-volume digital printing with exceptional color fidelity. Perfect for brochures, flyers,
+                            and business cards.</p>
+                        <a href="contact.html" class="btn btn-secondary"
+                            style="margin-top: 1rem; font-size: 0.8rem; padding: 8px 20px;">Order Prints</a>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="feature-card hover-card" data-aos="fade-left" data-aos-delay="100"
+                    style="padding: 0; overflow: hidden;">
+                    <div class="img-placeholder" style="height: 250px; border: none; border-radius: 0;">
+                        <span>Large Format Plotter Image</span>
+                    </div>
+                    <div style="padding: var(--spacing-md);">
+                        <h3 class="text-blue">Large Format Printing</h3>
+                        <p>Banners, posters, and signage graphics. Vibrant colors on vinyl, canvas, and more.</p>
+                        <a href="contact.html" class="btn btn-secondary"
+                            style="margin-top: 1rem; font-size: 0.8rem; padding: 8px 20px;">Order Prints</a>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="feature-card hover-card" data-aos="fade-right" data-aos-delay="200"
+                    style="padding: 0; overflow: hidden;">
+                    <div class="img-placeholder" style="height: 250px; border: none; border-radius: 0;">
+                        <span>Finishing Equipment Image</span>
+                    </div>
+                    <div style="padding: var(--spacing-md);">
+                        <h3 class="text-blue">Professional Finishing</h3>
+                        <p>Binding, laminating, cutting, and folding. The perfect finish for your documents.</p>
+                        <a href="contact.html" class="btn btn-secondary"
+                            style="margin-top: 1rem; font-size: 0.8rem; padding: 8px 20px;">Details</a>
+                    </div>
+                </div>
+
+                <!-- Item 4 (Consumables/Inks based on brochure) -->
+                <div class="feature-card hover-card" data-aos="fade-left" data-aos-delay="300"
+                    style="padding: 0; overflow: hidden;">
+                    <div class="img-placeholder" style="height: 250px; border: none; border-radius: 0;">
+                        <span>Inks & Toners Image</span>
+                    </div>
+                    <div style="padding: var(--spacing-md);">
+                        <h3 class="text-blue">Consumables Supply</h3>
+                        <p>We use and supply original inks and toners to ensure longevity and brightness of prints.</p>
+                        <a href="contact.html" class="btn btn-secondary"
+                            style="margin-top: 1rem; font-size: 0.8rem; padding: 8px 20px;">Inquire</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer style="background-color: var(--text-dark); color: white; padding: var(--spacing-lg) 0;">
+        <div class="container text-center">
+            <p>&copy; 2026 Madol Press</p>
+        </div>
+    </footer>
+
+    <script src="aos (1).js"></script>
+    <script>
+        AOS.init({
+            once: false,
+            offset: 100
+        });
+    </script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
