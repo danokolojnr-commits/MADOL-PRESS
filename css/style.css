@@ -682,8 +682,8 @@ body.dark-mode .text-red {
 .manager-img {
     max-width: 400px;
     height: 500px;
-    box-shadow: -20px 20px 0 var(--primary-blue);
-    transform: rotate(2deg);
+    box-shadow: 20px 20px 0 var(--primary-blue);
+    transform: rotate(-2deg);
     border-radius: var(--radius-md);
     margin-left: auto;
 }
@@ -694,5 +694,5 @@ body.dark-mode .badge-blue {
 }
 
 body.dark-mode .manager-img {
-    box-shadow: -20px 20px 0 #4A90E2;
+    box-shadow: 20px 20px 0 #4A90E2;
 }
