@@ -361,9 +361,9 @@ img {
 }
 
 .feature-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px) !important;
     box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.1),
+        0 12px 30px rgba(0, 0, 0, 0.12),
         0 0 25px rgba(227, 30, 36, 0.35),
         0 0 50px rgba(0, 85, 135, 0.15);
     border-color: rgba(227, 30, 36, 0.4);
@@ -406,12 +406,12 @@ img {
 }
 
 .hover-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-12px) !important;
     box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.12),
-        0 0 25px rgba(227, 30, 36, 0.35),
-        0 0 50px rgba(0, 85, 135, 0.15);
-    border-color: rgba(227, 30, 36, 0.4);
+        0 15px 35px rgba(0, 0, 0, 0.15),
+        0 0 30px rgba(227, 30, 36, 0.4),
+        0 0 60px rgba(0, 85, 135, 0.2);
+    border-color: rgba(227, 30, 36, 0.5);
 }
 
 body.dark-mode .hover-card:hover {
@@ -693,4 +693,29 @@ body.dark-mode .badge-blue {
 
 body.dark-mode .manager-img {
     box-shadow: 20px 20px 0 #4A90E2;
+}
+
+/* Social Bubbles */
+.social-bubble {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    color: white !important;
+    text-decoration: none;
+}
+
+.social-bubble:hover {
+    background: var(--primary-red);
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 5px 15px rgba(227, 30, 36, 0.4);
+    color: white !important;
+}
+
+.social-bubble i {
+    font-size: 1.2rem;
 }
