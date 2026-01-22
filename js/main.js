@@ -77,5 +77,39 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('theme', 'light');
         }
     });
+
+    // Stats Counter Animation
+    const stats = document.querySelectorAll('.stat-number');
+    const speed = 200;
+
+    const startCounter = (entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const target = entry.target;
+                const count = +target.innerText;
+                const data = +target.getAttribute('data-target');
+                const time = data / speed;
+
+                const updateCount = () => {
+                    const currentCount = +target.innerText;
+                    if (currentCount < data) {
+                        target.innerText = Math.ceil(currentCount + time);
+                        setTimeout(updateCount, 1);
+                    } else {
+                        target.innerText = data + (data === 7 ? '+' : data === 12000 ? '+' : 'M+');
+                    }
+                };
+
+                updateCount();
+                observer.unobserve(target);
+            }
+        });
+    };
+
+    const statsObserver = new IntersectionObserver(startCounter, {
+        threshold: 0.5
+    });
+
+    stats.forEach(stat => statsObserver.observe(stat));
 });
 

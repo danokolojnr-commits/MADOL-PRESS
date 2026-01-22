@@ -475,6 +475,92 @@ body.dark-mode .feature-card:hover .feature-icon {
     box-shadow: 0 0 40px rgba(227, 30, 36, 0.8);
 }
 
+/* Statistics Board Styles */
+.stats-section {
+    padding: var(--spacing-lg) 0;
+    background: linear-gradient(rgba(0, 85, 135, 0.05), rgba(227, 30, 36, 0.05));
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+}
+
+.stat-item {
+    background: var(--bg-card);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-item:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-red);
+}
+
+.stat-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+    color: white;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+    box-shadow: 0 8px 16px rgba(0, 85, 135, 0.2);
+}
+
+.stat-item:nth-child(2) .stat-icon {
+    background: linear-gradient(135deg, var(--primary-red), #C0151A);
+    box-shadow: 0 8px 16px rgba(227, 30, 36, 0.2);
+}
+
+.stat-info h2 {
+    font-size: 2.5rem;
+    margin: 0;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+
+.stat-info p {
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 5px 0 0;
+    font-size: 1.1rem;
+}
+
+.stat-info small {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 2px;
+}
+
+@media (max-width: 992px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
 /* Responsive Design */
 .menu-toggle {
     display: none;
