@@ -111,5 +111,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     stats.forEach(stat => statsObserver.observe(stat));
+
+    // Testimonial System
+    const marquee = document.getElementById('testimonial-marquee');
+    if (marquee) {
+        const defaultTestimonials = [
+            { name: "John Doe", rating: 5, text: "Absolutely stunning quality! The colors are so vibrant and the turnaround was incredibly fast. Highly recommend Madol Press." },
+            { name: "Sarah Williams", rating: 5, text: "The best printing company in Nigeria. Their attention to detail on our corporate brochures was second to none." },
+            { name: "Michael Obi", rating: 4, text: "Great customer service and very professional staff. The books were printed perfectly. Will definitely use them again." },
+            { name: "Chidi Okafor", rating: 5, text: "Excellent digital offset printing. The quality rivals international standards. So glad I found them!" },
+            { name: "Emily Adams", rating: 5, text: "They helped us with a rush order for our event and delivered 100% on time. Truly life-savers!" }
+        ];
+
+        let testimonials = JSON.parse(localStorage.getItem('user_testimonials')) || defaultTestimonials;
+        if (!localStorage.getItem('user_testimonials')) {
+            localStorage.setItem('user_testimonials', JSON.stringify(defaultTestimonials));
+        }
+
+        const renderTestimonials = () => {
+            const cardsHTML = testimonials.map(t => `
+                <div class="testimonial-card">
+                    <div class="stars">
+                        ${Array(5).fill(0).map((_, i) => `<i class="fa-solid fa-star" style="color: ${i < t.rating ? '#FFD700' : '#ddd'}"></i>`).join('')}
+                    </div>
+                    <p class="testimonial-text">"${t.text}"</p>
+                    <div class="testimonial-author">
+                        <strong>${t.name}</strong>
+                        <span>Verified Client</span>
+                    </div>
+                </div>
+            `).join('');
+            marquee.innerHTML = cardsHTML + cardsHTML;
+        };
+        renderTestimonials();
+    }
+
+    const testimonialForm = document.getElementById('testimonial-form');
+    if (testimonialForm) {
+        testimonialForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const text = document.getElementById('message').value;
+            const ratingInput = document.querySelector('input[name="rating"]:checked');
+            if (!ratingInput) {
+                alert('Please select a rating');
+                return;
+            }
+            const rating = parseInt(ratingInput.value);
+            const newTestimonial = { name, text, rating };
+            let testimonials = JSON.parse(localStorage.getItem('user_testimonials')) || [];
+            testimonials.unshift(newTestimonial);
+            localStorage.setItem('user_testimonials', JSON.stringify(testimonials));
+            alert('Thank you for your feedback! Redirecting to home page...');
+            window.location.href = 'index.html';
+        });
+    }
 });
 
