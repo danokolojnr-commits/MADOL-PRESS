@@ -15,21 +15,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add scroll effect for navbar
     const navbar = document.querySelector('.navbar');
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
-            navbar.style.padding = '0.5rem 0';
-        } else {
-            navbar.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
-            navbar.style.padding = '1rem 0';
-        }
-    });
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+                navbar.style.padding = '0.5rem 0';
+            } else {
+                navbar.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
+                navbar.style.padding = '1rem 0';
+            }
+        });
+    }
 
     // Mobile Menu Toggle
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
 
-    if (menuToggle) {
+    if (menuToggle && navLinks) {
         menuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
 
@@ -65,61 +67,66 @@ document.addEventListener('DOMContentLoaded', () => {
     // Dark Mode Toggle Logic
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
-    const icon = themeToggle.querySelector('i');
 
-    // Check for saved theme
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        body.classList.add('dark-mode');
-        icon.classList.replace('fa-moon', 'fa-sun');
-    }
+    if (themeToggle) {
+        const icon = themeToggle.querySelector('i');
 
-    themeToggle.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-
-        // Update icon and save preference
-        if (body.classList.contains('dark-mode')) {
+        // Check for saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
             icon.classList.replace('fa-moon', 'fa-sun');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            icon.classList.replace('fa-sun', 'fa-moon');
-            localStorage.setItem('theme', 'light');
         }
-    });
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            // Update icon and save preference
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    }
 
     // Stats Counter Animation
     const stats = document.querySelectorAll('.stat-number');
-    const speed = 200;
+    if (stats.length > 0) {
+        const speed = 200;
 
-    const startCounter = (entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const target = entry.target;
-                const count = +target.innerText;
-                const data = +target.getAttribute('data-target');
-                const time = data / speed;
+        const startCounter = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const count = +target.innerText;
+                    const data = +target.getAttribute('data-target');
+                    const time = data / speed;
 
-                const updateCount = () => {
-                    const currentCount = +target.innerText;
-                    if (currentCount < data) {
-                        target.innerText = Math.ceil(currentCount + time);
-                        setTimeout(updateCount, 1);
-                    } else {
-                        target.innerText = data + (data === 7 ? '+' : data === 12000 ? '+' : 'M+');
-                    }
-                };
+                    const updateCount = () => {
+                        const currentCount = +target.innerText;
+                        if (currentCount < data) {
+                            target.innerText = Math.ceil(currentCount + time);
+                            setTimeout(updateCount, 1);
+                        } else {
+                            target.innerText = data + (data === 7 ? '+' : data === 12000 ? '+' : 'M+');
+                        }
+                    };
 
-                updateCount();
-                observer.unobserve(target);
-            }
+                    updateCount();
+                    observer.unobserve(target);
+                }
+            });
+        };
+
+        const statsObserver = new IntersectionObserver(startCounter, {
+            threshold: 0.5
         });
-    };
 
-    const statsObserver = new IntersectionObserver(startCounter, {
-        threshold: 0.5
-    });
-
-    stats.forEach(stat => statsObserver.observe(stat));
+        stats.forEach(stat => statsObserver.observe(stat));
+    }
 
     // Testimonial System
     const marquee = document.getElementById('testimonial-marquee');
@@ -168,7 +175,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const rating = parseInt(ratingInput.value);
             const newTestimonial = { name, text, rating };
-            let testimonials = JSON.parse(localStorage.getItem('user_testimonials')) || [];
+
+            let testimonials = [];
+            try {
+                testimonials = JSON.parse(localStorage.getItem('user_testimonials')) || [];
+            } catch (err) {
+                testimonials = [];
+            }
+
+            // If it was null/empty, we might want to start with defaults or just empty. 
+            // The logic above in the marquee block initializes defaults if empty.
+            // But since we are on the form page, that block might not have run if marquee is missing.
+            // Let's ensure we don't wipe out defaults if they exist, but if it's a fresh visit to form first, it's ok.
+            // Actually, safe to just push to array.
+
             testimonials.unshift(newTestimonial);
             localStorage.setItem('user_testimonials', JSON.stringify(testimonials));
             alert('Thank you for your feedback! Redirecting to home page...');
