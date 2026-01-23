@@ -18,11 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navbar) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
-                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
-                navbar.style.padding = '0.5rem 0';
+                navbar.classList.add('scrolled');
             } else {
-                navbar.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
-                navbar.style.padding = '1rem 0';
+                navbar.classList.remove('scrolled');
             }
         });
     }
