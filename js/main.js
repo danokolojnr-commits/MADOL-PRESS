@@ -3,6 +3,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Madol Press site loaded');
 
+    // Dynamic Favicon Logic (Red/Blue Alternation)
+    const favIcons = ['images/favicon-red.png', 'images/favicon-blue.png'];
+    const randomFav = favIcons[Math.floor(Math.random() * favIcons.length)];
+    let favElement = document.getElementById('dynamic-favicon');
+
+    if (favElement) {
+        favElement.href = randomFav;
+    }
+
     // Add scroll effect for navbar
     const navbar = document.querySelector('.navbar');
 
