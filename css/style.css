@@ -1035,3 +1035,14 @@ body.dark-mode .manager-img {
 .social-bubble i {
     font-size: 1.2rem;
 }
+
+/* Mobile Fix for Dark Mode Toggle */
+@media (max-width: 768px) {
+    .theme-toggle {
+        top: auto;
+        bottom: 20px;
+        right: 20px;
+        z-index: 10000;
+        /* Ensure it's above other elements */
+    }
+}
