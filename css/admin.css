@@ -41,6 +41,13 @@ body {
     width: 100%;
     max-width: 400px;
     text-align: center;
+
+    /* Gradient Border (Blue to Red) */
+    border: 5px solid transparent;
+    background-image: linear-gradient(white, white),
+        linear-gradient(to right, var(--primary-blue), var(--primary-red));
+    background-origin: border-box;
+    background-clip: content-box, border-box;
 }
 
 .auth-logo {
