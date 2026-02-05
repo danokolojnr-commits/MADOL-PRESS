@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Add active class to next
             slides[currentSlide].classList.add('active');
-        }, 4000); // Change every 4 seconds
+        }, 7000); // Change every 7 seconds
     }
 
     // Dark Mode Toggle Logic
