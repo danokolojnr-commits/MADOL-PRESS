@@ -61,6 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update UI
         if (viewTitle) viewTitle.textContent = `Welcome, ${user}`;
         if (userNameDisplay) userNameDisplay.textContent = user;
+
+        const userImg = document.querySelector('.user-img');
+        if (userImg) userImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user)}&background=random&color=fff`;
     }
 
     // View Switching Logic
