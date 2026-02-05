@@ -43,7 +43,7 @@
                         <a href="#"><i class="fa-solid fa-users"></i> Customers</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa-solid fa-clipboard-list"></i> Projects</a>
+                        <a href="#"><i class="fa-solid fa-user-gear"></i> Accounts</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa-solid fa-bag-shopping"></i> Orders</a>
@@ -121,7 +121,35 @@
                 <div class="table-card">
                     <div class="card-header">
                         <h3>Recent Projects</h3>
-                        <a href="#" class="btn-main">See all <i class="fa-solid fa-arrow-right"></i></a>
+                        <button id="add-project-btn" class="btn-main" style="border: none; cursor: pointer;">
+                            <i class="fa-solid fa-plus"></i> Add Project
+                        </button>
+                    </div>
+
+                    <!-- Add Project Form (Modal-like Inline) -->
+                    <div id="project-form-container"
+                        style="display: none; margin-bottom: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; border: 1px solid #eee;">
+                        <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; font-size: 0.8rem; margin-bottom: 5px;">Project
+                                    Title</label>
+                                <input type="text" id="new-project-title" class="form-control" style="padding: 8px;"
+                                    placeholder="e.g. Wedding Cards">
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 0.8rem; margin-bottom: 5px;">Initial
+                                    Status</label>
+                                <select id="new-project-status" class="form-control" style="padding: 8px;">
+                                    <option value="pending">Pending</option>
+                                    <option value="in progress">In Progress</option>
+                                    <option value="review">Review</option>
+                                </select>
+                            </div>
+                            <button id="save-project-btn" class="btn-main"
+                                style="border: none; padding: 10px 20px;">Save</button>
+                            <button id="cancel-project-btn"
+                                style="background: #ccc; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
+                        </div>
                     </div>
 
                     <div class="table-responsive">
@@ -130,29 +158,11 @@
                                 <tr>
                                     <td>Project Title</td>
                                     <td>Status</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Fashion Magazine Vol. 12</td>
-                                    <td><span class="status purple"></span> review</td>
-                                </tr>
-                                <tr>
-                                    <td>Daily Times Newspaper</td>
-                                    <td><span class="status pink"></span> in progress</td>
-                                </tr>
-                                <tr>
-                                    <td>University Yearbook 2026</td>
-                                    <td><span class="status orange"></span> pending</td>
-                                </tr>
-                                <tr>
-                                    <td>Corporate Annual Report</td>
-                                    <td><span class="status purple"></span> review</td>
-                                </tr>
-                                <tr>
-                                    <td>Event Flyers Batch #203</td>
-                                    <td><span class="status pink"></span> in progress</td>
-                                </tr>
+                            <tbody id="projects-table-body">
+                                <!-- Projects will be rendered here by JS -->
                             </tbody>
                         </table>
                     </div>

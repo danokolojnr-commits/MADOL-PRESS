@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const welcomeMsg = document.getElementById('welcome-msg');
     const userNameDisplay = document.getElementById('user-name-display');
     const logoutBtn = document.getElementById('logout-btn');
+    const tableBody = document.getElementById('projects-table-body');
 
     if (welcomeMsg || userNameDisplay) {
         // Check auth
@@ -42,6 +43,124 @@ document.addEventListener('DOMContentLoaded', () => {
         if (welcomeMsg) welcomeMsg.textContent = `Welcome, ${user}`;
         if (userNameDisplay) userNameDisplay.textContent = user;
     }
+
+    // Projects CRUD Logic
+    let projects = JSON.parse(localStorage.getItem('madol_projects')) || [
+        { id: 1, title: "Fashion Magazine Vol. 12", status: "review" },
+        { id: 2, title: "Daily Times Newspaper", status: "in progress" },
+        { id: 3, title: "University Yearbook 2026", status: "pending" }
+    ];
+
+    const saveProjects = () => {
+        localStorage.setItem('madol_projects', JSON.stringify(projects));
+        renderProjects();
+    };
+
+    const renderProjects = () => {
+        if (!tableBody) return;
+        tableBody.innerHTML = '';
+
+        projects.forEach((proj, index) => {
+            const tr = document.createElement('tr');
+
+            // Status color mapping
+            const statusColor = proj.status === 'review' ? 'purple' : proj.status === 'in progress' ? 'pink' : 'orange';
+
+            tr.innerHTML = `
+                <td>
+                    <input type="text" class="editable-title" value="${proj.title}" data-index="${index}">
+                </td>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span class="status ${statusColor}"></span>
+                        <select class="status-select" data-index="${index}">
+                            <option value="pending" ${proj.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="in progress" ${proj.status === 'in progress' ? 'selected' : ''}>In Progress</option>
+                            <option value="review" ${proj.status === 'review' ? 'selected' : ''}>Review</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <i class="fa-solid fa-trash btn-delete" data-index="${index}"></i>
+                </td>
+            `;
+            tableBody.appendChild(tr);
+        });
+
+        // Add Event Listeners to dynamic elements
+        document.querySelectorAll('.editable-title').forEach(input => {
+            input.addEventListener('change', (e) => {
+                const idx = e.target.getAttribute('data-index');
+                projects[idx].title = e.target.value;
+                localStorage.setItem('madol_projects', JSON.stringify(projects));
+            });
+        });
+
+        document.querySelectorAll('.status-select').forEach(select => {
+            select.addEventListener('change', (e) => {
+                const idx = e.target.getAttribute('data-index');
+                projects[idx].status = e.target.value;
+                saveProjects();
+            });
+        });
+
+        document.querySelectorAll('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = e.target.getAttribute('data-index');
+                projects.splice(idx, 1);
+                saveProjects();
+            });
+        });
+    };
+
+    // Table Controls
+    const addBtn = document.getElementById('add-project-btn');
+    const formContainer = document.getElementById('project-form-container');
+    const saveBtn = document.getElementById('save-project-btn');
+    const cancelBtn = document.getElementById('cancel-project-btn');
+
+    if (addBtn) {
+        addBtn.addEventListener('click', () => {
+            formContainer.style.display = 'block';
+            addBtn.style.display = 'none';
+        });
+    }
+
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+            formContainer.style.display = 'none';
+            addBtn.style.display = 'block';
+        });
+    }
+
+    if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+            const titleInput = document.getElementById('new-project-title');
+            const statusSelect = document.getElementById('new-project-status');
+
+            if (titleInput.value.trim() === '') {
+                alert('Please enter a project title');
+                return;
+            }
+
+            const newProject = {
+                id: Date.now(),
+                title: titleInput.value,
+                status: statusSelect.value
+            };
+
+            projects.push(newProject);
+            saveProjects();
+
+            // Reset form
+            titleInput.value = '';
+            formContainer.style.display = 'none';
+            addBtn.style.display = 'block';
+        });
+    }
+
+    // Initial render
+    renderProjects();
 
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
