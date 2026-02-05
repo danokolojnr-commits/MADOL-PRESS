@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madol Press | Admin Dashboard</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/admin.css">
+
+    <!-- Dynamic Favicon -->
+    <link id="dynamic-favicon" rel="icon" type="image/png" href="images/favicon-red.png">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-print"></i>
+                Madol<span style="color: var(--primary-red);">Press</span>
+            </div>
+
+            <div class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="#" class="active"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa-solid fa-users"></i> Customers</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa-solid fa-clipboard-list"></i> Projects</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa-solid fa-bag-shopping"></i> Orders</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa-solid fa-warehouse"></i> Inventory</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa-solid fa-user-gear"></i> Accounts</a>
+                    </li>
+                    <li>
+                        <a href="#" id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="header">
+                <div class="header-title">
+                    <h2 id="welcome-msg">Dashboard</h2>
+                </div>
+
+                <div class="user-profile">
+                    <div class="user-info">
+                        <h4 id="user-name-display">Administrator</h4>
+                        <small>Super Admin</small>
+                    </div>
+                    <!-- Sample Avatar -->
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" alt="User"
+                        class="user-img">
+                </div>
+            </header>
+
+            <!-- Cards -->
+            <div class="stats-grid">
+                <div class="card">
+                    <div class="card-info">
+                        <h3>54</h3>
+                        <p>Customers</p>
+                    </div>
+                    <div class="card-icon icon-red">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-info">
+                        <h3>79</h3>
+                        <p>Projects</p>
+                    </div>
+                    <div class="card-icon icon-blue">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-info">
+                        <h3>124</h3>
+                        <p>Orders</p>
+                    </div>
+                    <div class="card-icon icon-green">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-info">
+                        <h3>$6k</h3>
+                        <p>Income</p>
+                    </div>
+                    <div class="card-icon icon-purple">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Projects -->
+            <div class="recent-grid">
+                <div class="table-card">
+                    <div class="card-header">
+                        <h3>Recent Projects</h3>
+                        <a href="#" class="btn-main">See all <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Project Title</td>
+                                    <td>Department</td>
+                                    <td>Status</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>UI/UX Design</td>
+                                    <td>UI Team</td>
+                                    <td><span class="status purple"></span> review</td>
+                                </tr>
+                                <tr>
+                                    <td>Web Development</td>
+                                    <td>Frontend</td>
+                                    <td><span class="status pink"></span> in progress</td>
+                                </tr>
+                                <tr>
+                                    <td>Ushop App</td>
+                                    <td>Mobile Team</td>
+                                    <td><span class="status orange"></span> pending</td>
+                                </tr>
+                                <tr>
+                                    <td>Magazine Print</td>
+                                    <td>Production</td>
+                                    <td><span class="status purple"></span> review</td>
+                                </tr>
+                                <tr>
+                                    <td>Flyer Batch #203</td>
+                                    <td>Digital Print</td>
+                                    <td><span class="status pink"></span> in progress</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
