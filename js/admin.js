@@ -14,6 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const passwordInput = document.getElementById('admin-password').value;
 
             if (passwordInput === ADMIN_PASSWORD) {
+                // Record Login Event
+                const now = new Date();
+                const loginEntry = {
+                    name: nameInput,
+                    date: now.toLocaleDateString(),
+                    time: now.toLocaleTimeString()
+                };
+
+                let logs = JSON.parse(localStorage.getItem('madol_login_logs')) || [];
+                logs.unshift(loginEntry); // Add to beginning of list
+                localStorage.setItem('madol_login_logs', JSON.stringify(logs));
+
                 // Success
                 localStorage.setItem('adminUser', nameInput);
                 window.location.href = 'dashboard.html';
@@ -25,12 +37,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Dashboard Logic
-    const welcomeMsg = document.getElementById('welcome-msg');
+    const viewTitle = document.getElementById('view-title');
     const userNameDisplay = document.getElementById('user-name-display');
     const logoutBtn = document.getElementById('logout-btn');
     const tableBody = document.getElementById('projects-table-body');
+    const historyBody = document.getElementById('login-history-body');
 
-    if (welcomeMsg || userNameDisplay) {
+    // View Selectors
+    const dashboardView = document.getElementById('dashboard-view');
+    const accountsView = document.getElementById('accounts-view');
+    const navDashboard = document.getElementById('nav-dashboard');
+    const navAccounts = document.getElementById('nav-accounts');
+
+    if (viewTitle || userNameDisplay) {
         // Check auth
         const user = localStorage.getItem('adminUser');
         if (!user) {
@@ -40,9 +59,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Update UI
-        if (welcomeMsg) welcomeMsg.textContent = `Welcome, ${user}`;
+        if (viewTitle) viewTitle.textContent = `Welcome, ${user}`;
         if (userNameDisplay) userNameDisplay.textContent = user;
     }
+
+    // View Switching Logic
+    const switchView = (view) => {
+        if (!dashboardView || !accountsView) return;
+
+        if (view === 'dashboard') {
+            dashboardView.style.display = 'block';
+            accountsView.style.display = 'none';
+            navDashboard.classList.add('active');
+            navAccounts.classList.remove('active');
+            const user = localStorage.getItem('adminUser');
+            viewTitle.textContent = `Welcome, ${user}`;
+        } else if (view === 'accounts') {
+            dashboardView.style.display = 'none';
+            accountsView.style.display = 'block';
+            navDashboard.classList.remove('active');
+            navAccounts.classList.add('active');
+            viewTitle.textContent = 'Account Access History';
+            renderLoginHistory();
+        }
+    };
+
+    if (navDashboard) navDashboard.addEventListener('click', (e) => { e.preventDefault(); switchView('dashboard'); });
+    if (navAccounts) navAccounts.addEventListener('click', (e) => { e.preventDefault(); switchView('accounts'); });
+
+    // Login History Logic
+    const renderLoginHistory = () => {
+        if (!historyBody) return;
+        const logs = JSON.parse(localStorage.getItem('madol_login_logs')) || [];
+        historyBody.innerHTML = '';
+
+        logs.forEach(log => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${log.name}</td>
+                <td>${log.date}</td>
+                <td>${log.time}</td>
+            `;
+            historyBody.appendChild(tr);
+        });
+    };
 
     // Projects CRUD Logic
     let projects = JSON.parse(localStorage.getItem('madol_projects')) || [
