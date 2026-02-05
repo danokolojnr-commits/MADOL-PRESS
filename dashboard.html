@@ -41,14 +41,12 @@
                             Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa-solid fa-users"></i> Customers</a>
+                        <a href="#" id="nav-customers"><i class="fa-solid fa-users"></i> Customers</a>
                     </li>
                     <li>
                         <a href="#" id="nav-accounts"><i class="fa-solid fa-user-gear"></i> Accounts</a>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa-solid fa-bag-shopping"></i> Orders</a>
-                    </li>
+
                     <li>
                         <a href="#" id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
                     </li>
@@ -81,7 +79,7 @@
                 <div class="stats-grid">
                     <div class="card">
                         <div class="card-info">
-                            <h3>54</h3>
+                            <h3 id="total-customers">54</h3>
                             <p>Customers</p>
                         </div>
                         <div class="card-icon icon-red">
@@ -91,7 +89,7 @@
 
                     <div class="card">
                         <div class="card-info">
-                            <h3>79</h3>
+                            <h3 id="total-projects">79</h3>
                             <p>Projects</p>
                         </div>
                         <div class="card-icon icon-blue">
@@ -101,17 +99,7 @@
 
                     <div class="card">
                         <div class="card-info">
-                            <h3>124</h3>
-                            <p>Orders</p>
-                        </div>
-                        <div class="card-icon icon-green">
-                            <i class="fa-solid fa-bag-shopping"></i>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-info">
-                            <h3>$6k</h3>
+                            <h3>₦6k</h3>
                             <p>Income</p>
                         </div>
                         <div class="card-icon icon-purple">
@@ -194,6 +182,34 @@
                                 </thead>
                                 <tbody id="login-history-body">
                                     <!-- History will be rendered here by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customers View -->
+            <div id="customers-view" style="display: none;">
+                <div class="recent-grid">
+                    <div class="table-card">
+                        <div class="card-header">
+                            <h3>Potential Customers</h3>
+                            <p style="color: var(--text-light); font-size: 0.9rem;">Quote requests from website</p>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td>Name</td>
+                                        <td>Email</td>
+                                        <td>Project Details</td>
+                                        <td>Date</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="customers-table-body">
+                                    <!-- Customers will be rendered here by JS -->
                                 </tbody>
                             </table>
                         </div>

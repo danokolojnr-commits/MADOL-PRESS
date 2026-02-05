@@ -42,12 +42,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.getElementById('logout-btn');
     const tableBody = document.getElementById('projects-table-body');
     const historyBody = document.getElementById('login-history-body');
+    const customersBody = document.getElementById('customers-table-body');
 
     // View Selectors
     const dashboardView = document.getElementById('dashboard-view');
     const accountsView = document.getElementById('accounts-view');
+    const customersView = document.getElementById('customers-view');
+
+    // Navigation Links
     const navDashboard = document.getElementById('nav-dashboard');
     const navAccounts = document.getElementById('nav-accounts');
+    const navCustomers = document.getElementById('nav-customers');
 
     if (viewTitle || userNameDisplay) {
         // Check auth
@@ -68,27 +73,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // View Switching Logic
     const switchView = (view) => {
-        if (!dashboardView || !accountsView) return;
+        if (!dashboardView || !accountsView || !customersView) return;
+
+        // Hide all first
+        dashboardView.style.display = 'none';
+        accountsView.style.display = 'none';
+        customersView.style.display = 'none';
+
+        // Remove active class
+        if (navDashboard) navDashboard.classList.remove('active');
+        if (navAccounts) navAccounts.classList.remove('active');
+        if (navCustomers) navCustomers.classList.remove('active');
 
         if (view === 'dashboard') {
             dashboardView.style.display = 'block';
-            accountsView.style.display = 'none';
-            navDashboard.classList.add('active');
-            navAccounts.classList.remove('active');
+            if (navDashboard) navDashboard.classList.add('active');
             const user = localStorage.getItem('adminUser');
             viewTitle.textContent = `Welcome, ${user}`;
         } else if (view === 'accounts') {
-            dashboardView.style.display = 'none';
             accountsView.style.display = 'block';
-            navDashboard.classList.remove('active');
-            navAccounts.classList.add('active');
+            if (navAccounts) navAccounts.classList.add('active');
             viewTitle.textContent = 'Account Access History';
             renderLoginHistory();
+        } else if (view === 'customers') {
+            customersView.style.display = 'block';
+            if (navCustomers) navCustomers.classList.add('active');
+            viewTitle.textContent = 'Potential Customers';
+            renderCustomers();
         }
     };
 
     if (navDashboard) navDashboard.addEventListener('click', (e) => { e.preventDefault(); switchView('dashboard'); });
     if (navAccounts) navAccounts.addEventListener('click', (e) => { e.preventDefault(); switchView('accounts'); });
+    if (navCustomers) navCustomers.addEventListener('click', (e) => { e.preventDefault(); switchView('customers'); });
 
     // Login History Logic
     const renderLoginHistory = () => {
@@ -105,6 +122,38 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             historyBody.appendChild(tr);
         });
+    };
+
+    // Customers Logic
+    const renderCustomers = () => {
+        if (!customersBody) return;
+        const customers = JSON.parse(localStorage.getItem('madol_customers')) || [];
+        customersBody.innerHTML = '';
+
+        customers.forEach(cust => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${cust.name}</td>
+                <td><a href="mailto:${cust.email}" style="color: var(--primary-blue); text-decoration: none;">${cust.email}</a></td>
+                <td>${cust.details}</td>
+                <td>${cust.date || '-'}</td>
+            `;
+            customersBody.appendChild(tr);
+        });
+
+        updateDashboardStats(); // Ensure count is correct
+    };
+
+    // Stats Logic
+    const updateDashboardStats = () => {
+        const statsCustomers = document.getElementById('total-customers');
+        const statsProjects = document.getElementById('total-projects');
+
+        const customers = JSON.parse(localStorage.getItem('madol_customers')) || [];
+        const projects = JSON.parse(localStorage.getItem('madol_projects')) || [];
+
+        if (statsCustomers) statsCustomers.textContent = customers.length;
+        if (statsProjects) statsProjects.textContent = projects.length;
     };
 
     // Projects CRUD Logic
@@ -174,6 +223,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 saveProjects();
             });
         });
+
+        updateDashboardStats();
     };
 
     // Table Controls
@@ -224,6 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial render
     renderProjects();
+    updateDashboardStats();
 
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
