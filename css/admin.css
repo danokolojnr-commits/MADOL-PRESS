@@ -10,6 +10,18 @@
     --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
     --radius-md: 10px;
+
+    /* Table Borders */
+    --border-color: #EEE;
+}
+
+body.dark-mode {
+    --bg-body: #1a1a1a;
+    --bg-sidebar: #242424;
+    --text-main: #e0e0e0;
+    --text-light: #aaa;
+    --border-color: #333;
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -34,7 +46,7 @@ body {
 }
 
 .auth-card {
-    background: white;
+    background: var(--bg-sidebar);
     padding: 3rem;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
@@ -78,10 +90,12 @@ body {
 .form-control {
     width: 100%;
     padding: 12px 15px;
-    border: 2px solid #EEE;
+    border: 2px solid var(--border-color);
     border-radius: 8px;
     font-size: 1rem;
     transition: all 0.3s;
+    background: var(--bg-body);
+    color: var(--text-main);
 }
 
 .form-control:focus {
@@ -118,7 +132,7 @@ body {
 .sidebar {
     width: 250px;
     background: var(--bg-sidebar);
-    border-right: 1px solid #EEE;
+    border-right: 1px solid var(--border-color);
     padding: 2rem 1.5rem;
     position: fixed;
     height: 100%;
@@ -215,7 +229,7 @@ body {
 }
 
 .card {
-    background: white;
+    background: var(--bg-sidebar);
     padding: 1.5rem;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
@@ -278,7 +292,7 @@ body {
 }
 
 .table-card {
-    background: white;
+    background: var(--bg-sidebar);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
     padding: 1.5rem;
@@ -310,8 +324,8 @@ table {
 }
 
 thead tr {
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
 thead td {
@@ -361,11 +375,12 @@ td .status {
 
 .status-select {
     padding: 4px 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 0.85rem;
     color: var(--text-light);
     cursor: pointer;
+    background: var(--bg-body);
 }
 
 .editable-title {
@@ -378,7 +393,7 @@ td .status {
 
 .editable-title:focus {
     border-color: var(--primary-blue);
-    background: #fff;
+    background: var(--bg-sidebar);
     outline: none;
 }
 

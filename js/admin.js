@@ -273,6 +273,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Theme Toggle Logic
+    const themeToggle = document.getElementById('theme-toggle');
+    const storedTheme = localStorage.getItem('madol_theme');
+
+    // Apply stored theme on load
+    if (storedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (themeToggle) {
+            themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            themeToggle.style.color = '#f1c40f'; // Yellow sun
+        }
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+
+            // Update Icon
+            if (isDark) {
+                themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+                themeToggle.style.color = '#f1c40f';
+                localStorage.setItem('madol_theme', 'dark');
+            } else {
+                themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+                themeToggle.style.color = 'var(--text-light)';
+                localStorage.setItem('madol_theme', 'light');
+            }
+        });
+    }
+
     // Initial render
     renderProjects();
     updateDashboardStats();
