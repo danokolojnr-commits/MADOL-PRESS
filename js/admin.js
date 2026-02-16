@@ -1,6 +1,6 @@
 // Madol Press Admin Logic
 
-const ADMIN_PASSWORD = "0000";
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -13,21 +13,31 @@ document.addEventListener('DOMContentLoaded', () => {
             const nameInput = document.getElementById('admin-name').value;
             const passwordInput = document.getElementById('admin-password').value;
 
-            if (passwordInput === ADMIN_PASSWORD) {
+            // Hardcoded Credentials
+            const CREDENTIALS = {
+                "0000": "super",
+                "999": "regular"
+            };
+
+            if (CREDENTIALS[passwordInput]) {
+                const role = CREDENTIALS[passwordInput];
+
                 // Record Login Event
                 const now = new Date();
                 const loginEntry = {
                     name: nameInput,
+                    role: role,
                     date: now.toLocaleDateString(),
                     time: now.toLocaleTimeString()
                 };
 
                 let logs = JSON.parse(localStorage.getItem('madol_login_logs')) || [];
-                logs.unshift(loginEntry); // Add to beginning of list
+                logs.unshift(loginEntry);
                 localStorage.setItem('madol_login_logs', JSON.stringify(logs));
 
                 // Success
                 localStorage.setItem('adminUser', nameInput);
+                localStorage.setItem('adminRole', role); // Store the role!
                 window.location.href = 'dashboard.html';
             } else {
                 // Fail
