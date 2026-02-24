@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    // Not logged in, redirect to login page
+    header("Location: admin.php");
+    exit;
+}
+
+// Get the logged in username safely
+$admin_username = htmlspecialchars($_SESSION['admin_username']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,12 +81,14 @@
                         <i class="fa-solid fa-moon"></i>
                     </button>
                     <div class="user-info">
-                        <h4 id="user-name-display">Administrator</h4>
-                        <small>Super Admin</small>
+                        <h4 id="user-name-display">
+                            <?php echo $admin_username; ?>
+                        </h4>
+                        <small>Admin User</small>
                     </div>
                     <!-- Sample Avatar -->
-                    <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" alt="User"
-                        class="user-img">
+                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($admin_username); ?>&background=0D8ABC&color=fff"
+                        alt="User" class="user-img">
                 </div>
             </header>
 

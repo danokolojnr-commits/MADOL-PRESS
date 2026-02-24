@@ -31,17 +31,20 @@
 
             <form id="login-form">
                 <div class="form-group">
-                    <label for="admin-name">Full Name</label>
-                    <input type="text" id="admin-name" class="form-control" placeholder="Enter your name" required>
+                    <label for="admin-name">Username</label>
+                    <input type="text" name="username" id="admin-name" class="form-control"
+                        placeholder="Enter your username" required>
                 </div>
 
                 <div class="form-group">
                     <label for="admin-password">Password</label>
-                    <input type="password" id="admin-password" class="form-control" placeholder="Enter access code"
-                        required>
+                    <input type="password" name="password" id="admin-password" class="form-control"
+                        placeholder="Enter password" required>
                 </div>
 
-                <button type="submit" class="btn-auth">Login to Dashboard</button>
+                <div id="login-error" style="color: red; margin-bottom: 15px; display: none; text-align: center;"></div>
+
+                <button type="submit" id="login-btn" class="btn-auth">Login to Dashboard</button>
             </form>
         </div>
     </div>

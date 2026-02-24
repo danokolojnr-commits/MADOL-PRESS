@@ -7,41 +7,47 @@ document.addEventListener('DOMContentLoaded', () => {
     // Login Page Logic
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const nameInput = document.getElementById('admin-name').value;
             const passwordInput = document.getElementById('admin-password').value;
+            const errorDiv = document.getElementById('login-error');
+            const submitBtn = document.getElementById('login-btn');
 
-            // Hardcoded Credentials
-            const CREDENTIALS = {
-                "0000": "super",
-                "999": "regular"
-            };
+            // Reset UI
+            errorDiv.style.display = 'none';
+            submitBtn.textContent = 'Logging in...';
+            submitBtn.disabled = true;
 
-            if (CREDENTIALS[passwordInput]) {
-                const role = CREDENTIALS[passwordInput];
+            try {
+                // Send credentials to PHP backend
+                const formData = new FormData();
+                formData.append('username', nameInput);
+                formData.append('password', passwordInput);
 
-                // Record Login Event
-                const now = new Date();
-                const loginEntry = {
-                    name: nameInput,
-                    role: role,
-                    date: now.toLocaleDateString(),
-                    time: now.toLocaleTimeString()
-                };
+                const response = await fetch('login_process.php', {
+                    method: 'POST',
+                    body: formData
+                });
 
-                let logs = JSON.parse(localStorage.getItem('madol_login_logs')) || [];
-                logs.unshift(loginEntry);
-                localStorage.setItem('madol_login_logs', JSON.stringify(logs));
+                const data = await response.json();
 
-                // Success
-                localStorage.setItem('adminUser', nameInput);
-                localStorage.setItem('adminRole', role); // Store the role!
-                window.location.href = 'dashboard.php';
-            } else {
-                // Fail
-                alert('Invalid Password. Access Denied.');
+                if (data.success) {
+                    // Login successful! PHP has created a secure session.
+                    window.location.href = 'dashboard.php';
+                } else {
+                    // Login failed
+                    errorDiv.textContent = data.message;
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Login Error:', error);
+                errorDiv.textContent = 'System error. Please try again.';
+                errorDiv.style.display = 'block';
+            } finally {
+                submitBtn.textContent = 'Login to Dashboard';
+                submitBtn.disabled = false;
             }
         });
     }
@@ -65,20 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navCustomers = document.getElementById('nav-customers');
 
     if (viewTitle || userNameDisplay) {
-        // Check auth
-        const user = localStorage.getItem('adminUser');
-        if (!user) {
-            alert('Please login first.');
-            window.location.href = 'admin.php';
-            return;
-        }
-
-        // Update UI
-        if (viewTitle) viewTitle.textContent = `Welcome, ${user}`;
-        if (userNameDisplay) userNameDisplay.textContent = user;
-
-        const userImg = document.querySelector('.user-img');
-        if (userImg) userImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user)}&background=random&color=fff`;
+        // UI Updates are handled by PHP on dashboard.js load
     }
 
     // View Switching Logic
@@ -134,36 +127,59 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Customers Logic
-    const renderCustomers = () => {
+    // Customers Logic (From MySQL Database)
+    const renderCustomers = async () => {
         if (!customersBody) return;
-        const customers = JSON.parse(localStorage.getItem('madol_customers')) || [];
-        customersBody.innerHTML = '';
 
-        customers.forEach(cust => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${cust.name}</td>
-                <td><a href="mailto:${cust.email}" style="color: var(--primary-blue); text-decoration: none;">${cust.email}</a></td>
-                <td>${cust.details}</td>
-                <td>${cust.date || '-'}</td>
-            `;
-            customersBody.appendChild(tr);
-        });
+        try {
+            const response = await fetch('get_quotes.php');
+            const result = await response.json();
 
-        updateDashboardStats(); // Ensure count is correct
+            customersBody.innerHTML = '';
+
+            if (result.success) {
+                const customers = result.data;
+
+                if (customers.length === 0) {
+                    customersBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No new quote requests found.</td></tr>';
+                } else {
+                    customers.forEach(cust => {
+                        const tr = document.createElement('tr');
+                        // Format the timestamp nicely
+                        const dateObj = new Date(cust.created_at);
+                        const formattedDate = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                        tr.innerHTML = `
+                            <td>${cust.name}</td>
+                            <td><a href="mailto:${cust.email}" style="color: var(--primary-blue); text-decoration: none;">${cust.email}</a></td>
+                            <td>${cust.message ? cust.message.substring(0, 50) + (cust.message.length > 50 ? '...' : '') : '-'}</td>
+                            <td>${formattedDate}</td>
+                        `;
+                        customersBody.appendChild(tr);
+                    });
+                }
+
+                // Update specific stats block for customers
+                const statsCustomers = document.getElementById('total-customers');
+                if (statsCustomers) statsCustomers.textContent = customers.length;
+
+            } else {
+                customersBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Error loading quotes.</td></tr>';
+            }
+        } catch (error) {
+            console.error("Failed to load quotes:", error);
+            customersBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">System Error.</td></tr>';
+        }
     };
 
     // Stats Logic
     const updateDashboardStats = () => {
-        const statsCustomers = document.getElementById('total-customers');
         const statsProjects = document.getElementById('total-projects');
-
-        const customers = JSON.parse(localStorage.getItem('madol_customers')) || [];
         const projects = JSON.parse(localStorage.getItem('madol_projects')) || [];
-
-        if (statsCustomers) statsCustomers.textContent = customers.length;
         if (statsProjects) statsProjects.textContent = projects.length;
+
+        // Note: total-customers is now updated directly inside renderCustomers()
+        // so it stays perfectly synced with the database.
     };
 
     // Projects CRUD Logic
@@ -316,13 +332,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial render
     renderProjects();
+    renderCustomers(); // Added so stats update immediately on load
     updateDashboardStats();
 
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            localStorage.removeItem('adminUser');
-            window.location.href = 'admin.php';
+            window.location.href = 'logout.php';
         });
     }
 
