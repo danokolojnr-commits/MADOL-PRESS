@@ -10,6 +10,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
 // Get the logged in username safely
 $admin_username = htmlspecialchars($_SESSION['admin_username']);
+$admin_role = isset($_SESSION['admin_role']) ? $_SESSION['admin_role'] : 'staff';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -225,6 +226,9 @@ $admin_username = htmlspecialchars($_SESSION['admin_username']);
                                         <td>Email</td>
                                         <td>Project Details</td>
                                         <td>Date</td>
+                                        <?php if ($admin_role === 'super'): ?>
+                                            <td>Actions</td>
+                                        <?php endif; ?>
                                     </tr>
                                 </thead>
                                 <tbody id="customers-table-body">
@@ -239,7 +243,11 @@ $admin_username = htmlspecialchars($_SESSION['admin_username']);
         </div>
     </div>
 
-    <script src="js/admin.js?v=4"></script>
+    <script>
+        // Pass PHP Role tracking to our javascript application safely
+        const adminRoleGlobal = "<?php echo $admin_role; ?>";
+    </script>
+    <script src="js/admin.js?v=5"></script>
 </body>
 
 </html>

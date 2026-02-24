@@ -141,7 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const customers = result.data;
 
                 if (customers.length === 0) {
-                    customersBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No new quote requests found.</td></tr>';
+                    let colSpan = (typeof adminRoleGlobal !== 'undefined' && adminRoleGlobal === 'super') ? 5 : 4;
+                    customersBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align:center;">No new quote requests found.</td></tr>`;
                 } else {
                     customers.forEach(cust => {
                         const tr = document.createElement('tr');
@@ -149,11 +150,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         const dateObj = new Date(cust.created_at);
                         const formattedDate = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+                        let actionsHtml = '';
+                        if (typeof adminRoleGlobal !== 'undefined' && adminRoleGlobal === 'super') {
+                            actionsHtml = `<td><button class="btn btn-secondary delete-quote-btn" data-id="${cust.id}" style="padding: 5px 10px; font-size: 0.8rem; background: #ffebee; color: var(--primary-red); border: 1px solid var(--primary-red);"><i class="fa-solid fa-trash"></i></button></td>`;
+                        }
+
                         tr.innerHTML = `
                             <td>${cust.name}</td>
                             <td><a href="mailto:${cust.email}" style="color: var(--primary-blue); text-decoration: none;">${cust.email}</a></td>
                             <td>${cust.message ? cust.message.substring(0, 50) + (cust.message.length > 50 ? '...' : '') : '-'}</td>
                             <td>${formattedDate}</td>
+                            ${actionsHtml}
                         `;
                         customersBody.appendChild(tr);
                     });
@@ -163,8 +170,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 const statsCustomers = document.getElementById('total-customers');
                 if (statsCustomers) statsCustomers.textContent = customers.length;
 
+                // Add event listeners for delete buttons
+                document.querySelectorAll('.delete-quote-btn').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        const quoteId = e.currentTarget.getAttribute('data-id');
+                        if (confirm('Are you sure you want to delete this quote request?')) {
+                            const formData = new FormData();
+                            formData.append('id', quoteId);
+
+                            try {
+                                const delResponse = await fetch('delete_quote.php', {
+                                    method: 'POST',
+                                    body: formData
+                                });
+                                const delResult = await delResponse.json();
+                                if (delResult.success) {
+                                    renderCustomers(); // Refresh
+                                } else {
+                                    alert(delResult.message);
+                                }
+                            } catch (err) {
+                                alert('Failed to delete quote.');
+                            }
+                        }
+                    });
+                });
+
             } else {
-                customersBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Error loading quotes.</td></tr>';
+                let colSpan = (typeof adminRoleGlobal !== 'undefined' && adminRoleGlobal === 'super') ? 5 : 4;
+                customersBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align:center; color:red;">Error loading quotes.</td></tr>`;
             }
         } catch (error) {
             console.error("Failed to load quotes:", error);
@@ -198,57 +232,75 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!tableBody) return;
         tableBody.innerHTML = '';
 
+        const isSuper = (typeof adminRoleGlobal !== 'undefined' && adminRoleGlobal === 'super');
+
         projects.forEach((proj, index) => {
             const tr = document.createElement('tr');
 
             // Status color mapping
             const statusColor = proj.status === 'review' ? 'purple' : proj.status === 'in progress' ? 'pink' : 'orange';
 
-            tr.innerHTML = `
-                <td>
-                    <input type="text" class="editable-title" value="${proj.title}" data-index="${index}">
-                </td>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <span class="status ${statusColor}"></span>
+            // Role based UI rendering
+            const titleHtml = isSuper ?
+                `<input type="text" class="editable-title" value="${proj.title}" data-index="${index}">` :
+                `<span>${proj.title}</span>`;
+
+            const selectHtml = isSuper ? `
                         <select class="status-select" data-index="${index}">
                             <option value="pending" ${proj.status === 'pending' ? 'selected' : ''}>Pending</option>
                             <option value="in progress" ${proj.status === 'in progress' ? 'selected' : ''}>In Progress</option>
                             <option value="review" ${proj.status === 'review' ? 'selected' : ''}>Review</option>
-                        </select>
+                        </select>` : `<span style="text-transform: capitalize;">${proj.status}</span>`;
+
+            const actionsHtml = isSuper ? `<td><i class="fa-solid fa-trash btn-delete" data-index="${index}"></i></td>` : `<td>-</td>`;
+
+            tr.innerHTML = `
+                <td>${titleHtml}</td>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span class="status ${statusColor}"></span>
+                        ${selectHtml}
                     </div>
                 </td>
-                <td>
-                    <i class="fa-solid fa-trash btn-delete" data-index="${index}"></i>
-                </td>
+                ${actionsHtml}
             `;
             tableBody.appendChild(tr);
         });
 
-        // Add Event Listeners to dynamic elements
-        document.querySelectorAll('.editable-title').forEach(input => {
-            input.addEventListener('change', (e) => {
-                const idx = e.target.getAttribute('data-index');
-                projects[idx].title = e.target.value;
-                localStorage.setItem('madol_projects', JSON.stringify(projects));
+        // Add Event Listeners to dynamic elements only for super users
+        if (isSuper) {
+            document.querySelectorAll('.editable-title').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const idx = e.target.getAttribute('data-index');
+                    projects[idx].title = e.target.value;
+                    localStorage.setItem('madol_projects', JSON.stringify(projects));
+                });
             });
-        });
 
-        document.querySelectorAll('.status-select').forEach(select => {
-            select.addEventListener('change', (e) => {
-                const idx = e.target.getAttribute('data-index');
-                projects[idx].status = e.target.value;
-                saveProjects();
+            document.querySelectorAll('.status-select').forEach(select => {
+                select.addEventListener('change', (e) => {
+                    const idx = e.target.getAttribute('data-index');
+                    projects[idx].status = e.target.value;
+                    saveProjects();
+                });
             });
-        });
 
-        document.querySelectorAll('.btn-delete').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const idx = e.target.getAttribute('data-index');
-                projects.splice(idx, 1);
-                saveProjects();
+            document.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const idx = e.target.getAttribute('data-index');
+                    projects.splice(idx, 1);
+                    saveProjects();
+                });
             });
-        });
+
+            // Show Add Project Button
+            const addBtnWrap = document.getElementById('add-project-btn');
+            if (addBtnWrap) addBtnWrap.style.display = 'inline-block';
+        } else {
+            // Hide Add Project Button for Staff
+            const addBtnWrap = document.getElementById('add-project-btn');
+            if (addBtnWrap) addBtnWrap.style.display = 'none';
+        }
 
         updateDashboardStats();
     };

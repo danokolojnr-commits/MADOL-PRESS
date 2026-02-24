@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // Prepare SQL statement to find the user
-        $stmt = $pdo->prepare('SELECT id, username, password FROM users WHERE username = ?');
+        $stmt = $pdo->prepare('SELECT id, username, password, role FROM users WHERE username = ?');
         $stmt->execute([$username]);
         $user = $stmt->fetch();
 
@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Password is correct! Create the session.
             $_SESSION['admin_id'] = $user['id'];
             $_SESSION['admin_username'] = $user['username'];
+            $_SESSION['admin_role'] = $user['role'];
             $_SESSION['admin_logged_in'] = true;
 
             echo json_encode(['success' => true, 'message' => 'Login successful']);
