@@ -1,45 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php include 'header.php'; ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products & Services - Madol Press</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="aos.css">
-    <!-- Dynamic Favicon -->
-    <link id="dynamic-favicon" rel="icon" type="image/png" href="images/favicon-red.png">
-</head>
-
-<body>
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
-        <i class="fa-solid fa-moon"></i>
-    </button>
-
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="index.html" class="logo">
-                <i class="fa-solid fa-print"></i>
-                Madol<span>Press</span>
-            </a>
-            <div class="menu-toggle">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="about.html" class="nav-link">About Us</a>
-                <a href="products.html" class="nav-link active">Services</a>
-                <a href="admin.html" class="nav-link">Admin</a>
-            </div>
-            <a href="contact.html" class="btn btn-primary">Get a Quote</a>
-        </div>
-    </nav>
-
-    <section class="section" style="padding-top: 140px; background: var(--bg-body);">
+<section class="section" style="padding-top: 140px; background: var(--bg-body);">
         <div class="container">
             <div class="text-center" data-aos="fade-up" style="margin-bottom: var(--spacing-lg);">
                 <h1 class="text-blue">Our <span class="text-red">Products</span> & Machinery</h1>
@@ -57,7 +18,7 @@
                         <h3 class="text-blue">High Quality Printers</h3>
                         <p>High-volume printing with exceptional color fidelity. Perfect for brochures, flyers,
                             and business cards.</p>
-                        <a href="contact.html" class="btn btn-secondary"
+                        <a href="contact.php" class="btn btn-secondary"
                             style="margin-top: 1rem; font-size: 0.8rem; padding: 8px 20px;">Order Prints</a>
                     </div>
                 </div>
@@ -70,7 +31,7 @@
                     <div style="padding: var(--spacing-md);">
                         <h3 class="text-blue">Large Format Printing</h3>
                         <p>Banners, posters, and signage graphics. Vibrant colors on vinyl, canvas, and more.</p>
-                        <a href="contact.html" class="btn btn-secondary"
+                        <a href="contact.php" class="btn btn-secondary"
                             style="margin-top: 1rem; font-size: 0.8rem; padding: 8px 20px;">Order Prints</a>
                     </div>
                 </div>
@@ -83,7 +44,7 @@
                     <div style="padding: var(--spacing-md);">
                         <h3 class="text-blue">Professional Finishing</h3>
                         <p>Binding, laminating, cutting, and folding. The perfect finish for your documents.</p>
-                        <a href="contact.html" class="btn btn-secondary"
+                        <a href="contact.php" class="btn btn-secondary"
                             style="margin-top: 1rem; font-size: 0.8rem; padding: 8px 20px;">Details</a>
                     </div>
                 </div>
@@ -96,7 +57,7 @@
                     <div style="padding: var(--spacing-md);">
                         <h3 class="text-blue">Consumables Supply</h3>
                         <p>We use and supply original inks and toners to ensure longevity and brightness of prints.</p>
-                        <a href="contact.html" class="btn btn-secondary"
+                        <a href="contact.php" class="btn btn-secondary"
                             style="margin-top: 1rem; font-size: 0.8rem; padding: 8px 20px;">Inquire</a>
                     </div>
                 </div>
@@ -110,7 +71,7 @@
                         <h3 class="text-blue">Graphic Design & Branding</h3>
                         <p>Professional layout, logo design, and brand identity services to make your business stand
                             out.</p>
-                        <a href="contact.html" class="btn btn-secondary"
+                        <a href="contact.php" class="btn btn-secondary"
                             style="margin-top: 1rem; font-size: 0.8rem; padding: 8px 20px;">Get Started</a>
                     </div>
                 </div>
@@ -124,7 +85,7 @@
                         <h3 class="text-blue">Book Publishing & Editorial</h3>
                         <p>Comprehensive book production solutions, from professional typesetting to high-quality
                             binding.</p>
-                        <a href="contact.html" class="btn btn-secondary"
+                        <a href="contact.php" class="btn btn-secondary"
                             style="margin-top: 1rem; font-size: 0.8rem; padding: 8px 20px;">Publish Now</a>
                     </div>
                 </div>
@@ -133,46 +94,4 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer style="background-color: var(--text-dark); color: white; padding: var(--spacing-lg) 0;">
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem;">
-                <div style="flex: 1; min-width: 250px;">
-                    <div class="logo" style="margin-bottom: 1rem; color: white;">
-                        <i class="fa-solid fa-print"></i>
-                        Madol<span style="color: var(--primary-red);">Press</span>
-                    </div>
-                    <p style="color: #aaa; max-width: 300px;">Delivering excellence in digital printing. Your
-                        satisfaction is our priority.</p>
-                </div>
-                <div>
-                    <h4 style="color: white; margin-bottom: 1rem;">Social Media</h4>
-                    <div style="display: flex; gap: 1rem;">
-                        <a href="#" class="social-bubble" aria-label="Facebook"><i
-                                class="fa-brands fa-facebook"></i></a>
-                        <a href="#" class="social-bubble" aria-label="Instagram"><i
-                                class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="social-bubble" aria-label="X (Twitter)"><i
-                                class="fa-brands fa-x-twitter"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div
-                style="border-top: 1px solid #333; margin-top: 2rem; padding-top: 2rem; text-align: center; color: #666;">
-                <p>&copy; 2026 Madol Press. All rights reserved. | <a href="terms.html"
-                        style="color: #999; text-decoration: none; transition: color 0.3s;">Terms & Policy</a></p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="aos.js"></script>
-    <script>
-        AOS.init({
-            once: false,
-            offset: 100
-        });
-    </script>
-    <script src="js/main.js"></script>
-</body>
-
-</html>
+    <?php include 'footer.php'; ?>

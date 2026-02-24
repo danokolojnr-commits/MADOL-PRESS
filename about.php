@@ -1,45 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php include 'header.php'; ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Madol Press</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="aos.css">
-    <!-- Dynamic Favicon -->
-    <link id="dynamic-favicon" rel="icon" type="image/png" href="images/favicon-red.png">
-</head>
-
-<body>
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
-        <i class="fa-solid fa-moon"></i>
-    </button>
-
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="index.html" class="logo">
-                <i class="fa-solid fa-print"></i>
-                Madol<span>Press</span>
-            </a>
-            <div class="menu-toggle">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="about.html" class="nav-link active">About Us</a>
-                <a href="products.html" class="nav-link">Services</a>
-                <a href="admin.html" class="nav-link">Admin</a>
-            </div>
-            <a href="contact.html" class="btn btn-primary">Get a Quote</a>
-        </div>
-    </nav>
-
-    <section class="section" style="padding-top: 140px; background: var(--bg-body);">
+<section class="section" style="padding-top: 140px; background: var(--bg-body);">
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text" data-aos="fade-right" data-aos-duration="800">
@@ -279,46 +240,4 @@
 
 
 
-    <!-- Footer -->
-    <footer style="background-color: var(--text-dark); color: white; padding: var(--spacing-lg) 0;">
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem;">
-                <div style="flex: 1; min-width: 250px;">
-                    <div class="logo" style="margin-bottom: 1rem; color: white;">
-                        <i class="fa-solid fa-print"></i>
-                        Madol<span style="color: var(--primary-red);">Press</span>
-                    </div>
-                    <p style="color: #aaa; max-width: 300px;">Delivering excellence in digital printing. Your
-                        satisfaction is our priority.</p>
-                </div>
-                <div>
-                    <h4 style="color: white; margin-bottom: 1rem;">Social Media</h4>
-                    <div style="display: flex; gap: 1rem;">
-                        <a href="#" class="social-bubble" aria-label="Facebook"><i
-                                class="fa-brands fa-facebook"></i></a>
-                        <a href="#" class="social-bubble" aria-label="Instagram"><i
-                                class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="social-bubble" aria-label="X (Twitter)"><i
-                                class="fa-brands fa-x-twitter"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div
-                style="border-top: 1px solid #333; margin-top: 2rem; padding-top: 2rem; text-align: center; color: #666;">
-                <p>&copy; 2026 Madol Press. All rights reserved. | <a href="terms.html"
-                        style="color: #999; text-decoration: none; transition: color 0.3s;">Terms & Policy</a></p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="aos.js"></script>
-    <script>
-        AOS.init({
-            once: false,
-            offset: 100
-        });
-    </script>
-    <script src="js/main.js"></script>
-</body>
-
-</html>
+    <?php include 'footer.php'; ?>

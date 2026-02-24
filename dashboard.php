@@ -29,7 +29,7 @@
 
         <!-- Sidebar -->
         <div class="sidebar">
-            <a href="index.html" class="sidebar-brand" style="text-decoration: none;">
+            <a href="index.php" class="sidebar-brand" style="text-decoration: none;">
                 <i class="fa-solid fa-print"></i>
                 Madol<span style="color: var(--primary-red);">Press</span>
             </a>

@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Success
                 localStorage.setItem('adminUser', nameInput);
                 localStorage.setItem('adminRole', role); // Store the role!
-                window.location.href = 'dashboard.html';
+                window.location.href = 'dashboard.php';
             } else {
                 // Fail
                 alert('Invalid Password. Access Denied.');
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const user = localStorage.getItem('adminUser');
         if (!user) {
             alert('Please login first.');
-            window.location.href = 'admin.html';
+            window.location.href = 'admin.php';
             return;
         }
 
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('adminUser');
-            window.location.href = 'admin.html';
+            window.location.href = 'admin.php';
         });
     }
 

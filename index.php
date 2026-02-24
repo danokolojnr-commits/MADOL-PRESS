@@ -1,55 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php include 'header.php'; ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Madol Press | Professional Digital Printing</title>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
-        rel="stylesheet">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
-
-    <!-- FontAwesome (for icons) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="aos.css">
-    <!-- Dynamic Favicon -->
-    <link id="dynamic-favicon" rel="icon" type="image/png" href="images/favicon-red.png">
-</head>
-
-<body>
-    <!-- Theme Toggle -->
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
-        <i class="fa-solid fa-moon"></i>
-    </button>
-
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="index.html" class="logo">
-                <i class="fa-solid fa-print"></i>
-                Madol<span>Press</span>
-            </a>
-            <div class="menu-toggle">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-link active">Home</a>
-                <a href="about.html" class="nav-link">About Us</a>
-                <a href="products.html" class="nav-link">Services</a>
-                <a href="admin.html" class="nav-link">Admin</a>
-            </div>
-            <a href="contact.html" class="btn btn-primary">Get a Quote</a>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
+<!-- Hero Section -->
     <section class="hero">
         <div class="hero-shape shape-1"></div>
         <div class="hero-shape shape-2"></div>
@@ -60,8 +11,8 @@
                 <p>From brochures to large format prints, Madol Press delivers exceptional quality with speed and
                     precision. Your trusted partner in professional printing.</p>
                 <div class="hero-buttons">
-                    <a href="products.html" class="btn btn-primary">Explore Services</a>
-                    <a href="about.html" class="btn btn-secondary" style="margin-left: 10px;">Learn More</a>
+                    <a href="products.php" class="btn btn-primary">Explore Services</a>
+                    <a href="about.php" class="btn btn-secondary" style="margin-left: 10px;">Learn More</a>
                 </div>
             </div>
 
@@ -151,7 +102,7 @@
         </div>
 
         <div class="container text-center" style="margin-top: 50px;">
-            <a href="testimonial-form.html" class="btn btn-secondary">
+            <a href="testimonial-form.php" class="btn btn-secondary">
                 <i class="fa-solid fa-pen-to-square"></i> Share Your Experience
             </a>
         </div>
@@ -196,43 +147,4 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer style="background-color: var(--text-dark); color: white; padding: var(--spacing-lg) 0;">
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem;">
-                <div style="flex: 1; min-width: 250px;">
-                    <div class="logo" style="margin-bottom: 1rem; color: white;">
-                        <i class="fa-solid fa-print"></i>
-                        Madol<span style="color: var(--primary-red);">Press</span>
-                    </div>
-                    <p style="color: #aaa; max-width: 300px;">Delivering excellence in digital printing. Your
-                        satisfaction is our priority.</p>
-                </div>
-                <div>
-                    <h4 style="color: white; margin-bottom: 1rem;">Social Media</h4>
-                    <div style="display: flex; gap: 1rem;">
-                        <a href="#" class="social-bubble" aria-label="Facebook"><i
-                                class="fa-brands fa-facebook"></i></a>
-                        <a href="#" class="social-bubble" aria-label="Instagram"><i
-                                class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="social-bubble" aria-label="X (Twitter)"><i
-                                class="fa-brands fa-x-twitter"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div
-                style="border-top: 1px solid #333; margin-top: 2rem; padding-top: 2rem; text-align: center; color: #666;">
-                <p>&copy; 2026 Madol Press. All rights reserved. | <a href="terms.html"
-                        style="color: #999; text-decoration: none; transition: color 0.3s;">Terms & Policy</a> | <a
-                        href="admin.html" style="color: #999; text-decoration: none; transition: color 0.3s;">Admin</a>
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="js/main.js"></script>
-    <script src="aos.js"></script>
-    <script src="main2.js"></script>
-</body>
-
-</html>
+    <?php include 'footer.php'; ?>

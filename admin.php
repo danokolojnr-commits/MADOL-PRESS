@@ -24,7 +24,7 @@
 
     <div class="auth-container">
         <div class="auth-card">
-            <a href="index.html" class="auth-logo" style="text-decoration: none;">
+            <a href="index.php" class="auth-logo" style="text-decoration: none;">
                 <i class="fa-solid fa-print"></i>
                 Madol<span>Press</span>
             </a>

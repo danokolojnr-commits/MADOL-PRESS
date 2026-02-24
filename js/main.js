@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
             testimonials.unshift(newTestimonial);
             localStorage.setItem('user_testimonials', JSON.stringify(testimonials));
             alert('Thank you for your feedback! Redirecting to home page...');
-            window.location.href = 'index.html';
+            window.location.href = 'index.php';
         });
     }
 });

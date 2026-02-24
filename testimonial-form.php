@@ -144,7 +144,7 @@
         <i class="fa-solid fa-moon"></i>
     </button>
     <div class="form-card" data-aos="zoom-in">
-        <a href="index.html" class="logo" style="justify-content: center; margin-bottom: 15px; display: flex;">
+        <a href="index.php" class="logo" style="justify-content: center; margin-bottom: 15px; display: flex;">
             <i class="fa-solid fa-print"></i>
             Madol<span>Press</span>
         </a>
@@ -181,7 +181,7 @@
             </div>
 
             <button type="submit" class="btn-submit">Submit Review</button>
-            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+            <a href="index.php" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
         </form>
     </div>
 
