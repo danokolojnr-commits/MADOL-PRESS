@@ -76,12 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // View Switching Logic
     const switchView = (view) => {
-        if (!dashboardView || !accountsView || !customersView) return;
+        if (!dashboardView || !customersView) return; // Core views
 
         // Hide all first
-        dashboardView.style.display = 'none';
-        accountsView.style.display = 'none';
-        customersView.style.display = 'none';
+        if (dashboardView) dashboardView.style.display = 'none';
+        if (accountsView) accountsView.style.display = 'none';
+        if (customersView) customersView.style.display = 'none';
 
         // Remove active class
         if (navDashboard) navDashboard.classList.remove('active');
@@ -89,17 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (navCustomers) navCustomers.classList.remove('active');
 
         if (view === 'dashboard') {
-            dashboardView.style.display = 'block';
+            if (dashboardView) dashboardView.style.display = 'block';
             if (navDashboard) navDashboard.classList.add('active');
             const user = localStorage.getItem('adminUser');
-            viewTitle.textContent = `Welcome, ${user}`;
+            if (user) viewTitle.textContent = `Welcome, ${user}`;
         } else if (view === 'accounts') {
-            accountsView.style.display = 'block';
+            if (accountsView) accountsView.style.display = 'block';
             if (navAccounts) navAccounts.classList.add('active');
             viewTitle.textContent = 'Account Access History';
             renderLoginHistory();
         } else if (view === 'customers') {
-            customersView.style.display = 'block';
+            if (customersView) customersView.style.display = 'block';
             if (navCustomers) navCustomers.classList.add('active');
             viewTitle.textContent = 'Potential Customers';
             renderCustomers();
