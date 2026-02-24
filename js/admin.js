@@ -110,21 +110,43 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navAccounts) navAccounts.addEventListener('click', (e) => { e.preventDefault(); switchView('accounts'); });
     if (navCustomers) navCustomers.addEventListener('click', (e) => { e.preventDefault(); switchView('customers'); });
 
-    // Login History Logic
-    const renderLoginHistory = () => {
+    // Login History Logic (From MySQL Database)
+    const renderLoginHistory = async () => {
         if (!historyBody) return;
-        const logs = JSON.parse(localStorage.getItem('madol_login_logs')) || [];
-        historyBody.innerHTML = '';
 
-        logs.forEach(log => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${log.name}</td>
-                <td>${log.date}</td>
-                <td>${log.time}</td>
-            `;
-            historyBody.appendChild(tr);
-        });
+        try {
+            const response = await fetch('get_login_history.php');
+            const result = await response.json();
+
+            historyBody.innerHTML = '';
+
+            if (result.success) {
+                const logs = result.data;
+
+                if (logs.length === 0) {
+                    historyBody.innerHTML = '<tr><td colspan="3" style="text-align:center;">No login history found.</td></tr>';
+                } else {
+                    logs.forEach(log => {
+                        const tr = document.createElement('tr');
+                        const dateObj = new Date(log.login_time);
+                        const formattedDate = dateObj.toLocaleDateString();
+                        const formattedTime = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                        tr.innerHTML = `
+                            <td>${log.username} <span style="font-size: 0.7rem; color: #888; text-transform: capitalize;">(${log.role})</span></td>
+                            <td>${formattedDate}</td>
+                            <td>${formattedTime}</td>
+                        `;
+                        historyBody.appendChild(tr);
+                    });
+                }
+            } else {
+                historyBody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:red;">Failed to load history.</td></tr>';
+            }
+        } catch (error) {
+            console.error("Failed to load login history:", error);
+            historyBody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:red;">System Error.</td></tr>';
+        }
     };
 
     // Customers Logic (From MySQL Database)
@@ -385,6 +407,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial render
     renderProjects();
     renderCustomers(); // Added so stats update immediately on load
+    if (typeof adminRoleGlobal !== 'undefined' && adminRoleGlobal === 'super') {
+        renderLoginHistory();
+    }
     updateDashboardStats();
 
     if (logoutBtn) {

@@ -57,9 +57,11 @@ $admin_role = isset($_SESSION['admin_role']) ? $_SESSION['admin_role'] : 'staff'
                     <li>
                         <a href="#" id="nav-customers"><i class="fa-solid fa-users"></i> Customers</a>
                     </li>
+                    <?php if ($admin_role === 'super'): ?>
                     <li>
                         <a href="#" id="nav-accounts"><i class="fa-solid fa-user-gear"></i> Accounts</a>
                     </li>
+                    <?php endif; ?>
 
                     <li>
                         <a href="#" id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
@@ -182,6 +184,7 @@ $admin_role = isset($_SESSION['admin_role']) ? $_SESSION['admin_role'] : 'staff'
                 </div>
             </div>
 
+            <?php if ($admin_role === 'super'): ?>
             <!-- Accounts View (Login History) -->
             <div id="accounts-view" style="display: none;">
                 <div class="recent-grid">
@@ -208,6 +211,7 @@ $admin_role = isset($_SESSION['admin_role']) ? $_SESSION['admin_role'] : 'staff'
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
 
             <!-- Customers View -->
             <div id="customers-view" style="display: none;">

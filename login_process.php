@@ -15,20 +15,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        // Prepare SQL statement to find the user
-        $stmt = $pdo->prepare('SELECT id, username, password, role FROM users WHERE username = ?');
-        $stmt->execute([$username]);
-        $user = $stmt->fetch();
+        // Fetch all possible roles and their passwords
+        $stmt = $pdo->query('SELECT role, password FROM users');
+        $role_accounts = $stmt->fetchAll();
 
-        // Check if user exists and password is correct
-        if ($user && password_verify($password, $user['password'])) {
-            // Password is correct! Create the session.
-            $_SESSION['admin_id'] = $user['id'];
-            $_SESSION['admin_username'] = $user['username'];
-            $_SESSION['admin_role'] = $user['role'];
+        $matched_role = null;
+        foreach ($role_accounts as $account) {
+            if (password_verify($password, $account['password'])) {
+                $matched_role = $account['role'];
+                break;
+            }
+        }
+
+        if ($matched_role) {
+            // Password is correct! Create the session using the typed username
+            $_SESSION['admin_username'] = $username; // Use their custom username
+            $_SESSION['admin_role'] = $matched_role;
             $_SESSION['admin_logged_in'] = true;
 
-            echo json_encode(['success' => true, 'message' => 'Login successful']);
+            // Record login history
+            $log_stmt = $pdo->prepare('INSERT INTO login_history (username, role) VALUES (?, ?)');
+            $log_stmt->execute([$username, $matched_role]);
+
+            echo json_encode(['success' => true, 'message' => 'Login successful', 'role' => $matched_role]);
         } else {
             // Invalid credentials
             echo json_encode(['success' => false, 'message' => 'Invalid username or password.']);
