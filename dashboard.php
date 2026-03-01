@@ -99,10 +99,11 @@ $admin_role = isset($_SESSION['admin_role']) ? $_SESSION['admin_role'] : 'staff'
             <div id="dashboard-view">
                 <!-- Cards -->
                 <div class="stats-grid">
+                <div class="stats-grid">
                     <div class="card">
                         <div class="card-info">
-                            <h3 id="total-customers">54</h3>
-                            <p>Customers</p>
+                            <h3 id="total-customers-stat">-</h3>
+                            <p>Customer Quotes</p>
                         </div>
                         <div class="card-icon icon-red">
                             <i class="fa-solid fa-users"></i>
@@ -111,11 +112,59 @@ $admin_role = isset($_SESSION['admin_role']) ? $_SESSION['admin_role'] : 'staff'
 
                     <div class="card">
                         <div class="card-info">
-                            <h3 id="total-projects">79</h3>
-                            <p>Projects</p>
+                            <h3 id="total-projects-stat">-</h3>
+                            <p>Total Projects</p>
                         </div>
                         <div class="card-icon icon-blue">
                             <i class="fa-solid fa-clipboard-check"></i>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-info">
+                            <h3 id="logins-today-stat">-</h3>
+                            <p>Logins Today</p>
+                        </div>
+                        <div class="card-icon icon-green">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Board -->
+                <div class="recent-grid" style="margin-top: 2rem; margin-bottom: 2rem;">
+                    <div class="table-card" style="background: linear-gradient(135deg, var(--bg-sidebar), rgba(0, 85, 135, 0.05));">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-chart-pie" style="margin-right: 10px; color: var(--primary-blue);"></i> System Statistics Board</h3>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 10px 0;">
+                            <div class="stat-box">
+                                <small style="display: block; color: var(--text-light); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">Pending Approval</small>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <h4 id="stat-pending" style="font-size: 1.5rem; color: #f39c12;">0</h4>
+                                    <div style="flex: 1; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
+                                        <div id="bar-pending" style="width: 0%; height: 100%; background: #f39c12; transition: width 1s ease;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-box">
+                                <small style="display: block; color: var(--text-light); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">In Production</small>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <h4 id="stat-production" style="font-size: 1.5rem; color: #ff6b6b;">0</h4>
+                                    <div style="flex: 1; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
+                                        <div id="bar-production" style="width: 0%; height: 100%; background: #ff6b6b; transition: width 1s ease;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-box">
+                                <small style="display: block; color: var(--text-light); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">Under Review</small>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <h4 id="stat-review" style="font-size: 1.5rem; color: #8e44ad;">0</h4>
+                                    <div style="flex: 1; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
+                                        <div id="bar-review" style="width: 0%; height: 100%; background: #8e44ad; transition: width 1s ease;"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

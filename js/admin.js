@@ -172,6 +172,48 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Statistics Board Logic
+    const renderStatsBoard = async () => {
+        try {
+            const response = await fetch('get_stats.php');
+            const result = await response.json();
+
+            if (result.success) {
+                const s = result.data;
+
+                // Update Top Cards
+                const custStat = document.getElementById('total-customers-stat');
+                const projStat = document.getElementById('total-projects-stat');
+                const loginStat = document.getElementById('logins-today-stat');
+
+                if (custStat) custStat.textContent = s.total_quotes;
+                if (projStat) projStat.textContent = s.total_projects;
+                if (loginStat) loginStat.textContent = s.logins_today;
+
+                // Update Detailed Breakdown
+                const pendingH4 = document.getElementById('stat-pending');
+                const productionH4 = document.getElementById('stat-production');
+                const reviewH4 = document.getElementById('stat-review');
+
+                if (pendingH4) pendingH4.textContent = s.pending;
+                if (productionH4) productionH4.textContent = s.in_progress;
+                if (reviewH4) reviewH4.textContent = s.review;
+
+                // Update Progress Bars (Percentage based)
+                const total = s.total_projects || 1;
+                const barP = document.getElementById('bar-pending');
+                const barProd = document.getElementById('bar-production');
+                const barR = document.getElementById('bar-review');
+
+                if (barP) barP.style.width = `${(s.pending / total) * 100}%`;
+                if (barProd) barProd.style.width = `${(s.in_progress / total) * 100}%`;
+                if (barR) barR.style.width = `${(s.review / total) * 100}%`;
+            }
+        } catch (error) {
+            console.error("Failed to load statistics board:", error);
+        }
+    };
+
     // Customers Logic (From MySQL Database)
     const renderCustomers = async () => {
         if (!customersBody) return;
@@ -276,11 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Stats Logic
     const updateDashboardStats = () => {
-        const statsProjects = document.getElementById('total-projects');
-        if (statsProjects) statsProjects.textContent = projects.length;
-
-        // Note: total-customers is now updated directly inside renderCustomers()
-        // so it stays perfectly synced with the database.
+        renderStatsBoard();
     };
 
     // Projects CRUD Logic (From MySQL Database)
@@ -511,11 +549,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial render
     fetchProjects();
-    renderCustomers(); // Added so stats update immediately on load
+    renderCustomers();
+    renderStatsBoard();
     if (typeof adminRoleGlobal !== 'undefined' && adminRoleGlobal === 'super') {
         renderLoginHistory();
     }
-    updateDashboardStats();
 
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
