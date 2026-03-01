@@ -97,8 +97,7 @@ $admin_role = isset($_SESSION['admin_role']) ? $_SESSION['admin_role'] : 'staff'
 
             <!-- Dashboard View -->
             <div id="dashboard-view">
-                <!-- Cards -->
-                <div class="stats-grid">
+                <!-- Top Stats Cards -->
                 <div class="stats-grid">
                     <div class="card">
                         <div class="card-info">
@@ -131,93 +130,96 @@ $admin_role = isset($_SESSION['admin_role']) ? $_SESSION['admin_role'] : 'staff'
                     </div>
                 </div>
 
-                <!-- Statistics Board -->
-                <div class="recent-grid" style="margin-top: 2rem; margin-bottom: 2rem;">
-                    <div class="table-card" style="background: linear-gradient(135deg, var(--bg-sidebar), rgba(0, 85, 135, 0.05));">
-                        <div class="card-header">
-                            <h3><i class="fa-solid fa-chart-pie" style="margin-right: 10px; color: var(--primary-blue);"></i> System Statistics Board</h3>
-                        </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 10px 0;">
-                            <div class="stat-box">
-                                <small style="display: block; color: var(--text-light); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">Pending Approval</small>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <h4 id="stat-pending" style="font-size: 1.5rem; color: #f39c12;">0</h4>
-                                    <div style="flex: 1; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
-                                        <div id="bar-pending" style="width: 0%; height: 100%; background: #f39c12; transition: width 1s ease;"></div>
+                <!-- Main Dashboard Grid -->
+                <div class="dashboard-grid-main">
+                    <!-- Left Column: Recent Projects (Stretched) -->
+                    <div class="recent-grid" style="margin-top: 0;">
+                        <div class="table-card" style="height: 100%;">
+                            <div class="card-header">
+                                <h3>Recent Projects</h3>
+                                <button id="add-project-btn" class="btn-main" style="border: none; cursor: pointer;">
+                                    <i class="fa-solid fa-plus"></i> Add Project
+                                </button>
+                            </div>
+
+                            <!-- Add Project Form (Modal-like Inline) -->
+                            <div id="project-form-container"
+                                style="display: none; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.02); border-radius: 8px; border: 1px solid var(--border-color);">
+                                <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
+                                    <div style="flex: 1; min-width: 200px;">
+                                        <label style="display: block; font-size: 0.8rem; margin-bottom: 5px; color: var(--text-light);">Project
+                                            Title</label>
+                                        <input type="text" id="new-project-title" class="form-control" style="padding: 8px;"
+                                            placeholder="e.g. Wedding Cards">
                                     </div>
+                                    <div>
+                                        <label style="display: block; font-size: 0.8rem; margin-bottom: 5px; color: var(--text-light);">Initial
+                                            Status</label>
+                                        <select id="new-project-status" class="form-control" style="padding: 8px; height: 38px;">
+                                            <option value="pending">Pending</option>
+                                            <option value="in progress">In Progress</option>
+                                            <option value="review">Review</option>
+                                        </select>
+                                    </div>
+                                    <button id="save-project-btn" class="btn-main"
+                                        style="border: none; padding: 10px 20px;">Save</button>
+                                    <button id="cancel-project-btn"
+                                        style="background: #ccc; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
                                 </div>
                             </div>
-                            <div class="stat-box">
-                                <small style="display: block; color: var(--text-light); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">In Production</small>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <h4 id="stat-production" style="font-size: 1.5rem; color: #ff6b6b;">0</h4>
-                                    <div style="flex: 1; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
-                                        <div id="bar-production" style="width: 0%; height: 100%; background: #ff6b6b; transition: width 1s ease;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="stat-box">
-                                <small style="display: block; color: var(--text-light); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">Under Review</small>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <h4 id="stat-review" style="font-size: 1.5rem; color: #8e44ad;">0</h4>
-                                    <div style="flex: 1; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
-                                        <div id="bar-review" style="width: 0%; height: 100%; background: #8e44ad; transition: width 1s ease;"></div>
-                                    </div>
-                                </div>
+
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td>Project Title</td>
+                                            <td>Status</td>
+                                            <td>Actions</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="projects-table-body">
+                                        <!-- Projects will be rendered here by JS -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Recent Projects -->
-                <div class="recent-grid">
-                    <div class="table-card">
-                        <div class="card-header">
-                            <h3>Recent Projects</h3>
-                            <button id="add-project-btn" class="btn-main" style="border: none; cursor: pointer;">
-                                <i class="fa-solid fa-plus"></i> Add Project
-                            </button>
-                        </div>
-
-                        <!-- Add Project Form (Modal-like Inline) -->
-                        <div id="project-form-container"
-                            style="display: none; margin-bottom: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; border: 1px solid #eee;">
-                            <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
-                                <div style="flex: 1; min-width: 200px;">
-                                    <label style="display: block; font-size: 0.8rem; margin-bottom: 5px;">Project
-                                        Title</label>
-                                    <input type="text" id="new-project-title" class="form-control" style="padding: 8px;"
-                                        placeholder="e.g. Wedding Cards">
-                                </div>
-                                <div>
-                                    <label style="display: block; font-size: 0.8rem; margin-bottom: 5px;">Initial
-                                        Status</label>
-                                    <select id="new-project-status" class="form-control" style="padding: 8px;">
-                                        <option value="pending">Pending</option>
-                                        <option value="in progress">In Progress</option>
-                                        <option value="review">Review</option>
-                                    </select>
-                                </div>
-                                <button id="save-project-btn" class="btn-main"
-                                    style="border: none; padding: 10px 20px;">Save</button>
-                                <button id="cancel-project-btn"
-                                    style="background: #ccc; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
+                    <!-- Right Column: System Board -->
+                    <div class="recent-grid" style="margin-top: 0;">
+                        <div class="table-card" style="height: 100%; background: linear-gradient(135deg, var(--bg-sidebar), rgba(0, 85, 135, 0.05));">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-chart-pie" style="margin-right: 10px; color: var(--primary-blue);"></i> System Board</h3>
                             </div>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <td>Project Title</td>
-                                        <td>Status</td>
-                                        <td>Actions</td>
-                                    </tr>
-                                </thead>
-                                <tbody id="projects-table-body">
-                                    <!-- Projects will be rendered here by JS -->
-                                </tbody>
-                            </table>
+                            <div style="display: flex; flex-direction: column; gap: 20px;">
+                                <div class="stat-box">
+                                    <small style="display: block; color: var(--text-light); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">Pending Approval</small>
+                                    <div style="display: flex; align-items: center; gap: 15px;">
+                                        <h4 id="stat-pending" style="font-size: 1.5rem; color: #f39c12;">0</h4>
+                                        <div style="flex: 1; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
+                                            <div id="bar-pending" style="width: 0%; height: 100%; background: #f39c12; transition: width 1s ease;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stat-box">
+                                    <small style="display: block; color: var(--text-light); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">In Production</small>
+                                    <div style="display: flex; align-items: center; gap: 15px;">
+                                        <h4 id="stat-production" style="font-size: 1.5rem; color: #ff6b6b;">0</h4>
+                                        <div style="flex: 1; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
+                                            <div id="bar-production" style="width: 0%; height: 100%; background: #ff6b6b; transition: width 1s ease;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stat-box">
+                                    <small style="display: block; color: var(--text-light); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">Under Review</small>
+                                    <div style="display: flex; align-items: center; gap: 15px;">
+                                        <h4 id="stat-review" style="font-size: 1.5rem; color: #8e44ad;">0</h4>
+                                        <div style="flex: 1; height: 8px; background: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
+                                            <div id="bar-review" style="width: 0%; height: 100%; background: #8e44ad; transition: width 1s ease;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

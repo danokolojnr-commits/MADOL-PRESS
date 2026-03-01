@@ -337,6 +337,37 @@ body.dark-mode .card::after {
     color: #8e44ad;
 }
 
+/* Stat Box Refinement */
+.stat-box {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease;
+}
+
+body.dark-mode .stat-box {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.stat-box:hover {
+    transform: translateY(-3px);
+}
+
+/* Layout Adjustments */
+.dashboard-grid-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media only screen and (min-width: 1200px) {
+    .dashboard-grid-main {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
 /* Recent Projects Table */
 .recent-grid {
     margin-top: 3rem;
@@ -437,26 +468,46 @@ td .status {
 }
 
 .status-select {
-    padding: 4px 8px;
+    padding: 6px 10px;
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 0.85rem;
-    color: var(--text-light);
+    color: var(--text-main);
     cursor: pointer;
-    background: var(--bg-body);
+    background: rgba(0, 0, 0, 0.05);
+    /* Darker shade */
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .status-select {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.status-select:focus {
+    border-color: var(--primary-blue);
+    outline: none;
 }
 
 .editable-title {
     border: 1px solid transparent;
-    padding: 4px 8px;
-    border-radius: 4px;
-    width: 250px;
-    transition: all 0.2s;
+    background: rgba(0, 0, 0, 0.03);
+    /* Darker shade */
+    padding: 8px 12px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 350px;
+    color: var(--text-main);
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .editable-title {
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .editable-title:focus {
     border-color: var(--primary-blue);
     background: var(--bg-sidebar);
+    box-shadow: 0 0 0 4px rgba(0, 85, 135, 0.1);
     outline: none;
 }
 
