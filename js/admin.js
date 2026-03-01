@@ -149,6 +149,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Clear History Logic
+    const clearHistoryBtn = document.getElementById('clear-history-btn');
+    if (clearHistoryBtn && typeof adminRoleGlobal !== 'undefined' && adminRoleGlobal === 'super') {
+        clearHistoryBtn.addEventListener('click', async () => {
+            if (confirm('Are you SURE you want to clear all login history? This cannot be undone.')) {
+                try {
+                    const response = await fetch('clear_history.php', { method: 'POST' });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        alert(result.message);
+                        renderLoginHistory(); // Refresh table
+                    } else {
+                        alert(result.message);
+                    }
+                } catch (err) {
+                    console.error('Error clearing history:', err);
+                    alert('Failed to clear history due to a system error.');
+                }
+            }
+        });
+    }
+
     // Customers Logic (From MySQL Database)
     const renderCustomers = async () => {
         if (!customersBody) return;
@@ -228,26 +251,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Clear All Quotes Logic
+    const clearQuotesBtn = document.getElementById('clear-quotes-btn');
+    if (clearQuotesBtn && typeof adminRoleGlobal !== 'undefined' && adminRoleGlobal === 'super') {
+        clearQuotesBtn.addEventListener('click', async () => {
+            if (confirm('Are you SURE you want to delete ALL customer quotes? This cannot be undone.')) {
+                try {
+                    const response = await fetch('clear_quotes.php', { method: 'POST' });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        alert(result.message);
+                        renderCustomers(); // Refresh table
+                    } else {
+                        alert(result.message);
+                    }
+                } catch (err) {
+                    console.error('Error clearing quotes:', err);
+                    alert('Failed to clear quotes due to a system error.');
+                }
+            }
+        });
+    }
+
     // Stats Logic
     const updateDashboardStats = () => {
         const statsProjects = document.getElementById('total-projects');
-        const projects = JSON.parse(localStorage.getItem('madol_projects')) || [];
         if (statsProjects) statsProjects.textContent = projects.length;
 
         // Note: total-customers is now updated directly inside renderCustomers()
         // so it stays perfectly synced with the database.
     };
 
-    // Projects CRUD Logic
-    let projects = JSON.parse(localStorage.getItem('madol_projects')) || [
-        { id: 1, title: "Fashion Magazine Vol. 12", status: "review" },
-        { id: 2, title: "Daily Times Newspaper", status: "in progress" },
-        { id: 3, title: "University Yearbook 2026", status: "pending" }
-    ];
+    // Projects CRUD Logic (From MySQL Database)
+    let projects = [];
 
-    const saveProjects = () => {
-        localStorage.setItem('madol_projects', JSON.stringify(projects));
-        renderProjects();
+    const fetchProjects = async () => {
+        try {
+            const response = await fetch('get_projects.php');
+            const result = await response.json();
+            if (result.success) {
+                projects = result.data;
+                renderProjects();
+            } else {
+                console.error("Failed to fetch projects");
+            }
+        } catch (error) {
+            console.error("Error fetching projects:", error);
+        }
     };
 
     const renderProjects = () => {
@@ -292,26 +343,67 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add Event Listeners to dynamic elements only for super users
         if (isSuper) {
             document.querySelectorAll('.editable-title').forEach(input => {
-                input.addEventListener('change', (e) => {
+                input.addEventListener('change', async (e) => {
                     const idx = e.target.getAttribute('data-index');
-                    projects[idx].title = e.target.value;
-                    localStorage.setItem('madol_projects', JSON.stringify(projects));
+                    const projId = projects[idx].id;
+                    const newTitle = e.target.value;
+
+                    projects[idx].title = newTitle;
+
+                    const formData = new FormData();
+                    formData.append('id', projId);
+                    formData.append('title', newTitle);
+
+                    try {
+                        await fetch('update_project.php', { method: 'POST', body: formData });
+                    } catch (err) {
+                        console.error('Failed to update title', err);
+                    }
                 });
             });
 
             document.querySelectorAll('.status-select').forEach(select => {
-                select.addEventListener('change', (e) => {
+                select.addEventListener('change', async (e) => {
                     const idx = e.target.getAttribute('data-index');
-                    projects[idx].status = e.target.value;
-                    saveProjects();
+                    const projId = projects[idx].id;
+                    const newStatus = e.target.value;
+
+                    projects[idx].status = newStatus;
+
+                    const formData = new FormData();
+                    formData.append('id', projId);
+                    formData.append('status', newStatus);
+
+                    try {
+                        await fetch('update_project.php', { method: 'POST', body: formData });
+                        updateDashboardStats();
+                    } catch (err) {
+                        console.error('Failed to update status', err);
+                    }
                 });
             });
 
             document.querySelectorAll('.btn-delete').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+                btn.addEventListener('click', async (e) => {
                     const idx = e.target.getAttribute('data-index');
-                    projects.splice(idx, 1);
-                    saveProjects();
+                    const projId = projects[idx].id;
+
+                    if (confirm("Are you sure you want to delete this project?")) {
+                        const formData = new FormData();
+                        formData.append('id', projId);
+
+                        try {
+                            const res = await fetch('delete_project.php', { method: 'POST', body: formData });
+                            const result = await res.json();
+                            if (result.success) {
+                                fetchProjects(); // Refresh from DB
+                            } else {
+                                alert(result.message);
+                            }
+                        } catch (err) {
+                            console.error('Failed to delete project', err);
+                        }
+                    }
                 });
             });
 
@@ -348,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (saveBtn) {
-        saveBtn.addEventListener('click', () => {
+        saveBtn.addEventListener('click', async () => {
             const titleInput = document.getElementById('new-project-title');
             const statusSelect = document.getElementById('new-project-status');
 
@@ -357,19 +449,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const newProject = {
-                id: Date.now(),
-                title: titleInput.value,
-                status: statusSelect.value
-            };
+            const formData = new FormData();
+            formData.append('title', titleInput.value);
+            formData.append('status', statusSelect.value);
 
-            projects.push(newProject);
-            saveProjects();
+            try {
+                const response = await fetch('save_project.php', {
+                    method: 'POST',
+                    body: formData
+                });
 
-            // Reset form
-            titleInput.value = '';
-            formContainer.style.display = 'none';
-            addBtn.style.display = 'block';
+                const result = await response.json();
+
+                if (result.success) {
+                    // Reset form
+                    titleInput.value = '';
+                    formContainer.style.display = 'none';
+                    addBtn.style.display = 'block';
+
+                    fetchProjects(); // Refresh table
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error("Failed to save project:", error);
+                alert("System error. Try again.");
+            }
         });
     }
 
@@ -405,7 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initial render
-    renderProjects();
+    fetchProjects();
     renderCustomers(); // Added so stats update immediately on load
     if (typeof adminRoleGlobal !== 'undefined' && adminRoleGlobal === 'super') {
         renderLoginHistory();

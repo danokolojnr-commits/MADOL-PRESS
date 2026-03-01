@@ -58,9 +58,9 @@ $admin_role = isset($_SESSION['admin_role']) ? $_SESSION['admin_role'] : 'staff'
                         <a href="#" id="nav-customers"><i class="fa-solid fa-users"></i> Customers</a>
                     </li>
                     <?php if ($admin_role === 'super'): ?>
-                    <li>
-                        <a href="#" id="nav-accounts"><i class="fa-solid fa-user-gear"></i> Accounts</a>
-                    </li>
+                        <li>
+                            <a href="#" id="nav-accounts"><i class="fa-solid fa-user-gear"></i> Accounts</a>
+                        </li>
                     <?php endif; ?>
 
                     <li>
@@ -116,16 +116,6 @@ $admin_role = isset($_SESSION['admin_role']) ? $_SESSION['admin_role'] : 'staff'
                         </div>
                         <div class="card-icon icon-blue">
                             <i class="fa-solid fa-clipboard-check"></i>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-info">
-                            <h3>₦6k</h3>
-                            <p>Income</p>
-                        </div>
-                        <div class="card-icon icon-purple">
-                            <i class="fa-solid fa-wallet"></i>
                         </div>
                     </div>
                 </div>
@@ -185,41 +175,58 @@ $admin_role = isset($_SESSION['admin_role']) ? $_SESSION['admin_role'] : 'staff'
             </div>
 
             <?php if ($admin_role === 'super'): ?>
-            <!-- Accounts View (Login History) -->
-            <div id="accounts-view" style="display: none;">
-                <div class="recent-grid">
-                    <div class="table-card">
-                        <div class="card-header">
-                            <h3>Login History</h3>
-                            <p style="color: var(--text-light); font-size: 0.9rem;">Total history of admin logins</p>
-                        </div>
+                <!-- Accounts View (Login History) -->
+                <div id="accounts-view" style="display: none;">
+                    <div class="recent-grid">
+                        <div class="table-card">
+                            <div class="card-header"
+                                style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <h3>Login History</h3>
+                                    <p style="color: var(--text-light); font-size: 0.9rem;">Total history of admin logins
+                                    </p>
+                                </div>
+                                <button id="clear-history-btn" class="btn btn-secondary"
+                                    style="padding: 5px 10px; font-size: 0.8rem; background: #ffebee; color: var(--primary-red); border: 1px solid var(--primary-red); border-radius: 4px; cursor: pointer;">
+                                    <i class="fa-solid fa-trash"></i> Clear History
+                                </button>
+                            </div>
 
-                        <div class="table-responsive">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <td>User Name</td>
-                                        <td>Date</td>
-                                        <td>Time</td>
-                                    </tr>
-                                </thead>
-                                <tbody id="login-history-body">
-                                    <!-- History will be rendered here by JS -->
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td>User Name</td>
+                                            <td>Date</td>
+                                            <td>Time</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="login-history-body">
+                                        <!-- History will be rendered here by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             <?php endif; ?>
 
             <!-- Customers View -->
             <div id="customers-view" style="display: none;">
                 <div class="recent-grid">
                     <div class="table-card">
-                        <div class="card-header">
-                            <h3>Potential Customers</h3>
-                            <p style="color: var(--text-light); font-size: 0.9rem;">Quote requests from website</p>
+                        <div class="card-header"
+                            style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3>Potential Customers</h3>
+                                <p style="color: var(--text-light); font-size: 0.9rem;">Quote requests from website</p>
+                            </div>
+                            <?php if ($admin_role === 'super'): ?>
+                                <button id="clear-quotes-btn" class="btn btn-secondary"
+                                    style="padding: 5px 10px; font-size: 0.8rem; background: #ffebee; color: var(--primary-red); border: 1px solid var(--primary-red); border-radius: 4px; cursor: pointer;">
+                                    <i class="fa-solid fa-trash"></i> Clear All Quotes
+                                </button>
+                            <?php endif; ?>
                         </div>
 
                         <div class="table-responsive">
